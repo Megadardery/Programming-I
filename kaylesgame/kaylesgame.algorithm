@@ -1,0 +1,36 @@
+truee = True
+list = ['1','2','3','4','5','6','7','8','9','0','1','2','3','4','5','6','7','8','9','0']
+while True
+    if(truee == True)
+        print('player 1')
+        read(max)
+        if(length(max)= 1 or length(max) = 2)
+            x = max
+            y = x
+            counter -= 1
+        else
+            x,y = max.split(',')
+            counter -= 2
+        truee = False 
+    else if (truee == False)
+        print('player 2')
+        read(max)
+        if(length(max)= 1 or length(max) = 2)
+            x = max
+            y = x
+            counter -= 1
+        else
+            x,y = max.split(',')
+            counter -= 2
+        truee = True
+        
+    list[y] = '-'
+    list[x] = '-'
+    if(counter == 0)
+        if(truee == False)
+            print('player 1 is the winner')
+            break
+        else
+            print('player 2 is the winner')
+            break
+    
