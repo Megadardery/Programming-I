@@ -1,16 +1,14 @@
-import pygame, sys, random
+import pygame, sys, random, time
 from pygame.locals import *
 
 
-FPS = 60 # frames per second setting
-SURF = pygame.display.set_mode((550, 800))
+FPS = 30 # frames per second setting
+SURF = pygame.display.set_mode((500, 700))
 FPSCLOCK = pygame.time.Clock()
 
 
 CELLCOUNT = 4
-
 pygame.init()
-
 #ENUMS-------------------------------------
 class gamestate:
     notstarted = 1
@@ -19,12 +17,19 @@ class gamestate:
 
 class colors:
     white       = (255, 255, 255)
-    red         = (255, 0  , 0  )
-    yellow      = (255, 255, 0  )
     lightyellow = (255, 230, 150)
-    pink        = (255, 0  , 255)
+    
+    red         = (255, 0  , 0  )
+    orange      = (255, 165, 0  )
+    pink        = (255, 192, 203)
+    
     green       = (0  , 255, 0  )
+    cyan        = (0  , 200, 200)
     blue        = (0  , 0  , 255)
+    indigo      = (75 , 0  , 130)
+    
+    gray        = (128, 128, 128)
+    
     black       = (0  , 0  , 0  )
     navyblue    = (60 , 60 , 100)
 
@@ -36,7 +41,7 @@ class cellstate:
     
 class Board:
             
-    def __init__(self,count, screen,validity):
+    def __init__(self,count, screen,validity,color1,color2):
         self._cellcount = count
         self._cellcount2 = self._cellcount * self._cellcount
         self._bordersize = 3
@@ -56,8 +61,8 @@ class Board:
 
         self.cellColor = colors.white
         self.cellHighlightedColor = colors.lightyellow
-        self.cellPlayer1Color = colors.red
-        self.cellPlayer2Color = colors.blue
+        self.cellPlayer1Color = color1
+        self.cellPlayer2Color = color2
         
         self.setScreen(screen)
 
@@ -202,17 +207,30 @@ def getAIrandommove(myBoard):
             break
 
     return a,b
-    
-def main():
 
+
+def printMessage(content, fontsize, forecolor, backcolor, coords):
+    myFont = pygame.font.Font('freesansbold.ttf', fontsize)
+    msgObj = myFont.render(content, True, forecolor, backcolor)
+    msgRect = msgObj.get_rect()
+    msgRect.topleft = coords
+    SURF.blit(msgObj, msgRect)
+    return msgRect
+
+
+
+def main():
+    color1 = colors.red
+    color2 = colors.blue
+    
     def newGame(ai):
         nonlocal AIplayer,player,myBoard,myGameState
-        myBoard = Board(CELLCOUNT,(25,25,500,500),isvalid)
+        myBoard = Board(CELLCOUNT,(25,25,450,450),isvalid,color1,color2)
         myGameState = gamestate.running
         player = 1
         AIplayer = ai
     
-    pygame.display.set_caption('Four squares game!')
+    pygame.display.set_caption('Two squares game!')
 
     
     mousex = 0
@@ -224,28 +242,19 @@ def main():
     myGameState = None
     newGame(0)
 
-    msgGameStateFont = pygame.font.Font('freesansbold.ttf', 30)
-    msgGameOptionsFont = pygame.font.Font('freesansbold.ttf', 20)
     
-    msgNewGame1 = msgGameOptionsFont.render("New Game (2 players)", True, colors.white, colors.black)
-    msgNewGameRect1 = msgNewGame1.get_rect()
-    msgNewGameRect1.topleft = (310, 680)
-
-    msgNewGame2 = msgGameOptionsFont.render("New Game (vs. Easy AI)", True, colors.white, colors.black)
-    msgNewGameRect2 = msgNewGame2.get_rect()
-    msgNewGameRect2.topleft = (310, 710)
-
-    msgNewGame3 = msgGameOptionsFont.render("New Game (vs. Hard AI)", True, colors.white, colors.black)
-    msgNewGameRect3 = msgNewGame3.get_rect()
-    msgNewGameRect3.topleft = (310, 740)
-
-    msgsPrint = ((msgNewGame1,msgNewGameRect1), (msgNewGame2,msgNewGameRect2), (msgNewGame3,msgNewGameRect3))
     
     while True: # main game loop
+        
+        SURF.fill(colors.navyblue)
+        rctNewGame2p = printMessage("New Game (2 players)",17,colors.white,colors.black,(300,560))
+        rctNewGameAI1 = printMessage("New Game (vs. Easy AI)",17,colors.white,colors.black,(300,600))
+        rctNewGameAI2 = printMessage("New Game (vs. Hard AI)",17,colors.white,colors.black,(300,640))
+        rctP1Color = printMessage("P1",25,colors.white,color1,(70,630))
+        rctP2Color = printMessage("P2",25,colors.white,color2,(130,630))
+            
         mouseclicked = False
         mymessage = "Player " + str(player) + " 's Turn"
-
-        SURF.fill(colors.navyblue)
         
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -261,15 +270,39 @@ def main():
         mycell = myBoard.getCellAt(mousex, mousey)
 
         if mouseclicked:
-            if msgNewGameRect1.collidepoint(mousex, mousey):
+            if rctNewGame2p.collidepoint(mousex, mousey):
                 newGame(0)
                 continue
-            elif msgNewGameRect2.collidepoint(mousex, mousey):
+            elif rctNewGameAI1.collidepoint(mousex, mousey):
                 newGame(1)
                 continue
-            elif msgNewGameRect3.collidepoint(mousex, mousey):
+            elif rctNewGameAI2.collidepoint(mousex, mousey):
                 newGame(2)
                 continue
+            elif rctP1Color.collidepoint(mousex, mousey):
+                if myBoard.cellPlayer1Color == colors.red:
+                    myBoard.cellPlayer1Color = colors.orange
+                elif myBoard.cellPlayer1Color == colors.orange:
+                    myBoard.cellPlayer1Color = colors.pink
+                elif myBoard.cellPlayer1Color == colors.pink:
+                    myBoard.cellPlayer1Color = colors.gray
+                else:
+                    myBoard.cellPlayer1Color = colors.red
+
+                color1 = myBoard.cellPlayer1Color
+                continue
+            elif rctP2Color.collidepoint(mousex, mousey):
+                if myBoard.cellPlayer2Color == colors.blue:
+                    myBoard.cellPlayer2Color = colors.indigo
+                elif myBoard.cellPlayer2Color == colors.indigo:
+                    myBoard.cellPlayer2Color = colors.cyan
+                elif myBoard.cellPlayer2Color == colors.cyan:
+                    myBoard.cellPlayer2Color = colors.gray
+                else:
+                    myBoard.cellPlayer2Color = colors.blue
+                color2 = myBoard.cellPlayer2Color
+                continue
+
             
             if myGameState == gamestate.running and mycell != None :
                 if myBoard.setSelected(mycell,player) == True:
@@ -278,19 +311,20 @@ def main():
                     else:
                         if AIplayer == 1:
                             a,b = getAIrandommove(myBoard)
-                            myBoard.setSelected(a,2)
-                            myBoard.setSelected(b,2)
-                            if checkPossible(myBoard) == False:
-                                myGameState = gamestate.stopped
-                                player = "AI"
                         elif AIplayer == 2:
                             a,b = getAImove(myBoard)
+                            
+                        if AIplayer != 0:
+                            drawstuff()
+                            time.sleep(0.5)
                             myBoard.setSelected(a,2)
+                            drawstuff()
+                            time.sleep(0.3)
                             myBoard.setSelected(b,2)
                             if checkPossible(myBoard) == False:
                                 myGameState = gamestate.stopped
                                 player = "AI"
-                        else:
+                        else:        #Human player
                             if player == 1:
                                 player = 2
                             else:
@@ -307,18 +341,16 @@ def main():
                 mymessage = "The AI has won :P Haha!"
             else:
                 mymessage = "Player " + str(player) + " Won!!! Congratulations!!!"
-        #drawing stuff        
-        myBoard.draw(SURF)
+        #drawing stuff
+        def drawstuff():
         
-        msgGameState = msgGameStateFont.render(mymessage, True, colors.white)
-        msgGameStateRect = msgGameState.get_rect()
-        msgGameStateRect.topleft = (25, 550)
-        SURF.blit(msgGameState, msgGameStateRect)
+            myBoard.draw(SURF)
 
-        for i in msgsPrint:
-            SURF.blit(i[0], i[1])
+            printMessage(mymessage,25,colors.white,None,(25,500))
         
-        pygame.display.update()
+            pygame.display.update()
+
+        drawstuff()
         FPSCLOCK.tick(FPS)
 
 if __name__ == '__main__':
