@@ -14,4 +14,4 @@
 - - [x] Analyzed the Kayles game, designed an algorithm and implemented it in python.
 - - [x] Added Added Artificial Intelligence to the game.
 - - [x] Created a C++ version of the game.
-- - [ ] Created a graphics version of the Kayles game.
+- - [x] Created a graphics version of the Kayles game.
