@@ -8,7 +8,7 @@ know = 1
 cary = 0
 player1 = False
 player2 = False
-saver = 0
+channger = 0
 one = False
 two = False
 three = False
@@ -29,6 +29,8 @@ seventeen = False
 eigthteen = False
 nineteen = False
 twenty = False
+changer1 = 0
+changer2 = 0
 my_list = ['False','False','False','False','False','False','False','False','False','False','False','False','False','False','False','False','False','False','False','False']
 x = 0
 y = 0
@@ -72,6 +74,8 @@ player('player 1')
 color((255,255,255),'one no.player1',(100,150,250,50),[105,160],(0,0,100))
 color((255,255,255),'one no.player2',(770,150,255,50),[775,160],(20,255,50))
 while not pattern:
+    color((255,255,255),'one no.player1',(100,150,250,50),[105,160],(20,255,50))
+    color((255,255,255),'one no.player2',(770,150,255,50),[775,160],(20,255,50))
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pattern = True
@@ -378,12 +382,6 @@ while not pattern:
         twenty = True
     else:
         draw_text('20',(0,0,255),1060)
-    if(x >= 770 and x <= 1020 and y >= 150 and y <= 200):
-        cary = 3
-        changer = 1
-    if(x >= 100 and x <= 350 and y >= 150 and y <= 200):
-        cary = 3
-        changer = 2
     if(z >= 10 and z <= 60 and w <= 120 and w >= 70 and one == False):
         pygame.draw.rect(screen,(255,255,255),(10,70,50,50))
         draw_text('1',(255,0,0),25)
@@ -430,30 +428,62 @@ while not pattern:
         draw_text('19',(255,0,0),1005)
     elif(z >= 1055 and z <= 1105 and w <= 120 and w >= 70 and twenty == False):
         draw_text('20',(255,0,0),1060)
-    if(cary == 2 or cary == 3):
+    if(cary == 2 ):
         if(changer == 1):
             pygame.draw.rect(screen,(0,0,0),(10,5,200,50))
             player('player 1')
             changer = 2
-            color((255,255,255),'one no.player1',(100,150,250,50),[105,160],(0,0,100))
+            color((255,255,255),'one no.player1',(100,150,250,50),[105,160],(20,255,50))
             color((255,255,255),'one no.player2',(770,150,255,50),[775,160],(20,255,50))
         elif(changer == 2):
             pygame.draw.rect(screen,(0,0,0),(10,5,200,50))
             player('player 2')
             changer = 1
             color((255,255,255),'one no.player1',(100,150,250,50),[105,160],(20,255,50))
-            color((255,255,255),'one no.player2',(770,150,255,50),[775,160],(0,0,100))
+            color((255,255,255),'one no.player2',(770,150,255,50),[775,160],(20,255,50))
         play_back()
         cary = 0
+    if(cary == 0):
+        cary = 0
+    else:
+        if(z >= 100 and z <= 350 and w >= 150 and w <= 200 and (changer == 2 or channger == 4)):
+            color((255,255,255),'one no.player1',(100,150,250,50),[105,160],(255,0,0))
+        elif(z >= 770 and z <= 1025 and w >= 150 and w <= 200 and (changer == 1 or channger == 3)):
+            color((255,255,255),'one no.player2',(770,150,255,50),[775,160],(255,0,0))
+        if(x >= 770 and x <= 1020 and y >= 150 and y <= 200):
+            pygame.draw.rect(screen,(0,0,0),(10,5,200,50))
+            player('player 1')
+            channger = 3
+            changer = 4
+            cary = 0
+            color((255,255,255),'one no.player1',(100,150,250,50),[105,160],(20,255,50))
+            color((255,255,255),'one no.player2',(770,150,255,50),[775,160],(20,255,50))
+            play_back()
+        if(x >= 100 and x <= 350 and y >= 150 and y <= 200):
+            pygame.draw.rect(screen,(0,0,0),(10,5,200,50))
+            player('player 2')
+            channger = 4
+            changer = 5
+            cary = 0
+            color((255,255,255),'one no.player1',(100,150,250,50),[105,160],(20,255,50))
+            color((255,255,255),'one no.player2',(770,150,255,50),[775,160],(20,255,50))
+            play_back()
     if(counter == 0):
         pygame.draw.rect(screen,(0,0,0),(10,5,200,50))
-        if(changer == 2):
-            player('player1 is the winner')
-        else:
-            player('player2 is the winner')
+        if(changer == 1 and channger != 4):
+            player('player 1 is the winner')
+        elif(changer == 2 and channger != 3):
+            player('player 2 is the winner')
+        elif(channger == 3):
+            player('player 1 is the winner')
+        elif(channger == 4):
+            player('player 2 is the winner')
+    if(changer == 4):
+        changer = 2
+    elif(changer == 5):
+        changer = 1
     pygame.display.flip()
     fpsClock.tick(FPS)
-pygame.guit()
-
-
+pygame.quit()
+    
 
