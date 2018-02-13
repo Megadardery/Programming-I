@@ -1,36 +1,35 @@
-truee = True
-list = ['1','2','3','4','5','6','7','8','9','0','1','2','3','4','5','6','7','8','9','0']
-while True
-    if(truee == True)
-        print('player 1')
-        read(max)
-        if(length(max)= 1 or length(max) = 2)
-            x = max
-            y = x
-            counter -= 1
-        else
-            x,y = max.split(',')
-            counter -= 2
-        truee = False 
-    else if (truee == False)
-        print('player 2')
-        read(max)
-        if(length(max)= 1 or length(max) = 2)
-            x = max
-            y = x
-            counter -= 1
-        else
-            x,y = max.split(',')
-            counter -= 2
-        truee = True
-        
-    list[y] = '-'
-    list[x] = '-'
-    if(counter == 0)
-        if(truee == False)
-            print('player 1 is the winner')
-            break
-        else
-            print('player 2 is the winner')
-            break
-    
+1.    list = ['1','2','3','4','5','6','7','8','9','0','1','2','3','4','5','6','7','8','9','0']
+2.    spaces = 20
+3.    If player1's turn
+3.1.      Print Player's turn
+3.2.      Get Input from Player 1
+3.3.      If Input is one number:
+3.3.1.        Set x = input
+3.3.2.        Set y = x
+3.3.3.        Decrement spaces by 1
+3.4.      Else:
+3.4.1.        Set x,y to the two numbers from input
+3.4.2.        Decrement spaces by 1
+3.5.      If x,y are not possible moves: goto 3.2.
+3.6.      set turn to player2's
+
+4.    Else If player2's turn
+4.1.      Print "Player 2's turn"
+4.2.      Get Input from Player 2
+4.3.      If Input is one number:
+4.3.1.        Set x = input
+4.3.2.        Set y = x
+4.3.3.        Decrement spaces by 1
+4.4.      Else:
+4.4.1.        Set x,y to the two numbers from input
+4.4.2.        Decrement spaces by 1
+4.5.      If x,y are not possible moves: goto 4.2.
+4.6.      set turn to player1's
+
+5.    Update list according to x, y
+
+6.    If spaces == 0
+6.1.      If player1's turn: print "player 1 is the winner"
+6.2.      Else: print "player 2 is the winner"
+6.3.      Exit loop
+7.    Go to step 3
