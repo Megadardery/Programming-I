@@ -1,9 +1,24 @@
 /* FCI – Programming 1 – 2018 - Assignment 2
-
 	Program Name: cipher4.cpp
-	Last Modification Date: 21/02/2018
+	Last Modification Date: 23/02/2018
 	Ahmed Nasr Eldardery (megadardery): G2 - 20170034
 	Purpose: This is a program that implements cipher #4;
+
+	Algorithm (cipher):
+	    1.    Read Input
+		2.    Result = ""
+		3.    Do the folowing for each character (char):
+		3.1.      Convert all letters to upper case.
+		3.2.      if (char is not a letter)
+		3.2.1.        append char to Result
+		3.2.2.        skip to next letter
+		3.3.      encoding = ascii(letter) - ascii('A')				\\Now all letters have a value starts from 0 for 'A' and ends at 25 for 'Z')
+		3.4.      Convert the integer <encoding> to the binary representation, using 'a' instead of '0' and 'b' instead of '1'
+		3.4.1.        put 'a' if last bit is 0 and 'b' if last bit is 1
+		3.4.2.        shift one bit to the right
+		3.4.3.        repeat 1.4.1. and 1.4.2. five times.
+		3.5.      Append the representation to Result.
+		4.    Print Result
 */
 #include <iostream>
 #include <string>
