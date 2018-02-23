@@ -1,8 +1,7 @@
 /* FCI – Programming 1 – 2018 - Assignment 2
 
-	//WIP
 	Program Name: all_ciphers.cpp
-	Last Modification Date: 22/02/2018
+	Last Modification Date: 23/02/2018
 	Ahmed Nasr Eldardery (megadardery): G2 - 20170034
 	Purpose: This is a program that implements all 10 different types of ciphers in Assignment 2;
 */
@@ -207,7 +206,26 @@ string XORCipher(string msg) {
 	
 }
 string RailfenceCipher(string msg) {
-	throw new exception;
+	int lines = getNumber(0, 25, "\nEnter the number of lines you want (0-25): \n");
+
+	string result = "";
+	int jump = 2 * lines - 2;
+	if (jump == 0) jump = 1;
+
+	for (int mystep = 0; mystep < lines; ++mystep) {
+		int advance = mystep * 2;
+
+		for (int i = 0 - mystep; i < (int)msg.length(); i += jump) {
+			if (i >= 0)
+				result += msg[i];
+
+			if (advance != 0 && advance != jump)
+				if (i + advance < (int)msg.length())
+					result += msg[i + advance];
+		}
+	}
+
+	return result;
 }
 //--------------------------------------------------------------------------------------------------------------------------------------------
 string AffineDecipher(string msg) {
@@ -333,7 +351,26 @@ string XORDecipher(string msg) {
 	return XORCipher(msg);
 }
 string RailfenceDecipher(string msg) {
-	throw new exception;
+	int lines = getNumber(0, 25, "\nEnter the number of lines you want (0-25): \n");
+	int jump = 2 * lines - 2;
+	if (jump == 0) jump = 1;
+
+	string result = msg;
+
+	int curr = 0;
+	for (int mystep = 0; mystep < lines; ++mystep) {
+		int advance = mystep * 2;
+
+		for (int i = 0 - mystep; i < (int)msg.length(); i += jump) {
+			if (i >= 0)
+				result[i] = msg[curr++];
+
+			if (advance != 0 && advance != jump)
+				if (i + advance < (int)msg.length())
+					result[i + advance] = msg[curr++];
+		}
+	}
+	return result;
 }
 //--------------------------------------------------------------------------------------------------------------------------------------------
 
