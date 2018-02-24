@@ -21,9 +21,9 @@ double fac(double num){
 }
 int main()
 {
-    float x = 0.0 ;
+    double x = 0.0 ;
     double power = 1.0 ;
-    cout << "Enter the the power"
+    cout << "Enter the the power : ";
     cin >> x;
     for (int i = 1 ; i <= 100 ; ++i){
         power = power + (pow(x,i) / fac(i));
