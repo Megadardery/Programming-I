@@ -1,0 +1,87 @@
+#include <iostream>
+#include <bits/stdc++.h>
+#include <string>
+using namespace std;
+
+int main()
+{
+    cout<<"Ahlan ya user ya habibi ."<<endl;
+    cout<<"What do you like to do today? "<<endl;
+    cout<<"1- Cipher a message"<<endl;
+    cout<<"2- Decipher a message"<<endl;
+    cout<<"3- End"<<endl;
+    bool isOk=true ;
+    string userLetter,cipherMessage ;
+    int youLike;
+    while(isOk)
+    {
+        cin>>youLike;
+        cin.ignore();
+        if(youLike<=0 || youLike>3)
+        {
+            while(youLike<=0 || youLike>3)
+            {
+                cout<<"choose 1 or 2 or 3"<<endl;
+                cin>>youLike;
+                cin.ignore();
+                if(youLike>0 && youLike<=3)
+                {
+                    cout<<" confirm your number "<<endl;
+                }
+
+            }
+        }
+
+    else if(youLike==1)
+    {
+        cout<<"enter a letter"<<endl;
+        getline(cin,userLetter);
+        for(int i=0;i<userLetter.length();i++){
+            if((userLetter[i]<78 && userLetter[i]>=65) || (userLetter[i]<110 &&userLetter[i]>=97 ) ){
+                cipherMessage=userLetter[i]+13;
+                cout<<cipherMessage;
+            }
+            else if((userLetter[i]>=78 &&userLetter[i]<=90 )|| (userLetter[i]>=110 &&userLetter[i]<=122)){
+
+                 cipherMessage=userLetter[i]-13;
+                 cout<<cipherMessage;
+            }
+            else{
+                cipherMessage=userLetter[i];
+                cout<<cipherMessage;
+            }
+        }
+        isOk=false;
+    }
+    else if(youLike==2)
+    {
+        cout<<"enter a letter"<<endl;
+        getline(cin,userLetter);
+        for(int i=0;i<userLetter.length();i++){
+            if((userLetter[i]<78 && userLetter[i]>=65) || (userLetter[i]<110 &&userLetter[i]>=97 ) ){
+                cipherMessage=userLetter[i]+13;
+                cout<<cipherMessage;
+            }
+            else if((userLetter[i]>=78 &&userLetter[i]<=90 )|| (userLetter[i]>=110 &&userLetter[i]<=122)){
+
+                 cipherMessage=userLetter[i]-13;
+                 cout<<cipherMessage;
+            }
+            else{
+                cipherMessage=userLetter[i];
+                cout<<cipherMessage;
+            }
+        }
+        isOk=false;
+    }
+    else if(youLike==3)
+    {
+        return 0;
+    }
+
+}
+
+
+
+return 0;
+}
