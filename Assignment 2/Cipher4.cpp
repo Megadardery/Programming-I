@@ -2,7 +2,7 @@
 	Program Name: cipher4.cpp
 	Last Modification Date: 23/02/2018
 	Ahmed Nasr Eldardery (megadardery): G2 - 20170034
-	Purpose: This is a program that implements cipher #4;
+	Purpose: This is a program that implements cipher #4: Baconian cipher.
 
 	Algorithm (cipher):
 	    1.    Read Input
