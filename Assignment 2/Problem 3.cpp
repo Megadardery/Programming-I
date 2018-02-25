@@ -17,7 +17,7 @@ int main()
    cin>>enD;
    while(start<=enD){
     velocity=331.3+0.61*start;
-    cout<<"at  "<<start<<"  degrees celsius the velocity of sound is  "<<velocity<<" m/s "<<endl;
+    cout<<"at  "<<start<<"  degrees celsius the velocity of sound is  "<<fixed<<setprecision(1)<<velocity<<" m/s "<<endl;
     start++;
    }
     return 0;
