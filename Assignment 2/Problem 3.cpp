@@ -1,7 +1,7 @@
 /* FCI – Programming 1 – 2018 - Assignment 2
 	Program Name: Problem 3.cpp
 	Last Modification Date: 23/02/2018
-	Ashraf Samir Ali (ashrafsamer661@yahoo.com): G2 - 20170053
+	Ashraf Samir Ali (AshrafSamir): G2 - 20170053
 	Purpose: This is a program that did problem #3 (11) in the book.
 */
 #include <iostream>
