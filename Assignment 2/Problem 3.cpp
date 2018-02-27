@@ -3,6 +3,12 @@
 	Last Modification Date: 23/02/2018
 	Ashraf Samir Ali (AshrafSamir): G2 - 20170053
 	Purpose: This is a program that did problem #3 (11) in the book.
+	
+	Algorith >> take start and end from user
+	while start < end
+	calculate this function  velocity=331.3+0.61*start
+	end loop
+	print velocity
 */
 #include <iostream>
 
