@@ -2,7 +2,15 @@
 	Program Name: cipher3.cpp
 	Last Modification Date: 23/02/2018
 	Ashraf Samir Ali (AshrafSamir): G2 - 20170053
-	Purpose: This is a program that implements cipher #3: ROT13 Cipher. */
+	Purpose: This is a program that implements cipher #3: ROT13 Cipher.
+	
+	Algorithm >> take input as letter from user check
+	if (userLetter[i]<78 and userLetter[i]>=65) or (userLetter[i]<110 and userLetter[i]>=97)
+	then take this char and add 13
+	else if userLetter[i]>=78 and userLetter[i]<=90 ) or (userLetter[i]>=110 and userLetter[i]<=122)
+	then take this char and - 13
+	else take this char and print it without changes  */
+
 #include <iostream>
 #include <string>
 using namespace std;
