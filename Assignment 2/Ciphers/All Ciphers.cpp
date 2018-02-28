@@ -1,7 +1,6 @@
-/* FCI – Programming 1 – 2018 - Assignment 2
+﻿/* FCI – Programming 1 – 2018 - Assignment 2
 
-	//WIP
-	Program Name: all_ciphers.cpp
+	Program Name: All Ciphers.cpp
 	Last Modification Date: 25/02/2018
 	Ahmed Nasr Eldardery (megadardery): G2 - 20170034
 	Purpose: This is a program that implements all 10 different types of ciphers in Assignment 2;

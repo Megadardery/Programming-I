@@ -26,9 +26,9 @@
 
 ## Assignment 2
 - Ahmed Nasr Eldardery Ibrahim | 20170034
-  - [ ] Used typingclub.com and did 100 lessons.
+  - [x] Used typingclub.com and did 100 lessons.
   - [x] Implemented the Baconian Cipher and Decipher algorithms.
-  - [ ] Correct implementation of the assigned problem (chap 2, page 109, problem 13)
+  - [x] Correct implementation of the assigned problem (chap 2, page 109, problem 13)
   - [x] Correct implementation of the group problem (chap 3, page 176, problem 7)
   - [x] Done a cipher program that implements all ten algorithms.
   - [x] Group collaboration and following coding style.

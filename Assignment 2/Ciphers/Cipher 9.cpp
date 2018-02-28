@@ -1,6 +1,6 @@
-/* FCI – Programming 1 – 2018 - Assignment 2
+﻿/* FCI – Programming 1 – 2018 - Assignment 2
 
-	Program Name: Cipher9.cpp
+	Program Name: Cipher 9.cpp
 	Last Modification Date: 24/02/2018
 	Adham Mamdouh Mohamed (adhammamdouh): G2 - 20170039
 	Purpose: This is a program that implements cipher #9: railfence cipher.

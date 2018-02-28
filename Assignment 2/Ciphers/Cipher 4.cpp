@@ -1,5 +1,5 @@
-/* FCI – Programming 1 – 2018 - Assignment 2
-	Program Name: cipher4.cpp
+﻿/* FCI – Programming 1 – 2018 - Assignment 2
+	Program Name: Cipher 4.cpp
 	Last Modification Date: 23/02/2018
 	Ahmed Nasr Eldardery (megadardery): G2 - 20170034
 	Purpose: This is a program that implements cipher #4: Baconian cipher.
