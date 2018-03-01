@@ -1,3 +1,10 @@
+/* FCI – Programming 1 – 2018 - Assignment 2
+	Program Name: Cipher 6.cpp
+	Last Modification Date: 28/02/2018
+	Adham Mamdouh Mohamed (adhammamdouh): G2 - 20170039
+	Purpose: This is a program that implements cipher #9: Polybius square cipher.
+*/
+
 #include <iostream>
 #include <cmath>
 
@@ -11,25 +18,43 @@ int main()
 {
     int choose;
     string msg , key ;
+    cout << "ahlan ya user ya 7abibi" << endl;
+    cout << "Polybius Square Cipher" << endl;
+    while(true){
+    cout << "What do you want to do today ?" << '\n';
+    cout << "1 >> Cipher a message" << '\n' ;
+    cout << "2 >> Decipher a message" << '\n' ;
+    cout << "3 >> End" << '\n';
     cin >> choose;
-    cout << "Enter The secret key :" << endl;
-    cin.ignore();
-    getline(cin , key);
     if(choose == 1){
+        cout << "Enter The secret key :" << endl;
+        cin.ignore();
+        getline(cin , key);
         cout << "Enter the message : " ;
         getline(cin ,msg);
         cipher(msg , key);
     }
     else if(choose == 2){
+        cout << "Enter The secret key :" << endl;
+        cin.ignore();
+        getline(cin , key);
         cout << "Enter the ciphered message : " ;
         getline(cin ,msg);
         decipher(msg , key);
+    }
+    else if(choose == 3){
+        return 0 ;
+    }
+    else {
+        cout << '\a' << "invalid input" << endl;
+    }
     }
     return 0;
 }
 void cipher(string msg , string key){
     int position = 0.0,col = 0.0;
     float row = 0.0 ;
+    cout << '\n' ;
     for(int i = 0 ; i < msg.length() ; ++i){
         if(msg[i] == 'Z' || msg[i] == 'z'){
             cout << "00" ;
@@ -49,6 +74,8 @@ void cipher(string msg , string key){
         }
         cout << key[2*(row-1)] <<key[2*(col -1)] ;
     }
+    cout << '\n';
+    cout << "\nThe secret key to decipher the message = " << key ;
 }
 void decipher(string deciphe , string key){
     int posit ;
