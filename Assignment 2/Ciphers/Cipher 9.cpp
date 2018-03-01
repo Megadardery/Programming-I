@@ -22,8 +22,8 @@ int main()
     while(true)
     {
         cout << "What do you want to do today ?" << '\n';
-        cout << "1 >> Cypher a message" << '\n' ;
-        cout << "2 >> Decypher a message" << '\n' ;
+        cout << "1 >> Cipher a message" << '\n' ;
+        cout << "2 >> Decipher a message" << '\n' ;
         cout << "3 >> End" << '\n';
         cin >> choose ;
         cout << endl;
