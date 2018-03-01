@@ -1,4 +1,4 @@
-﻿/* FCI – Programming 1 – 2018 - Assignment 2
+﻿﻿/* FCI – Programming 1 – 2018 - Assignment 2
 
 	Program Name: Cipher 9.cpp
 	Last Modification Date: 28/02/2018

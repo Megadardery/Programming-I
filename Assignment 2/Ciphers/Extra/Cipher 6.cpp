@@ -1,8 +1,8 @@
-/* FCI â€“ Programming 1 â€“ 2018 - Assignment 2
+/* FCI – Programming 1 – 2018 - Assignment 2
 	Program Name: Cipher 6.cpp
 	Last Modification Date: 28/02/2018
 	Adham Mamdouh Mohamed (adhammamdouh): G2 - 20170039
-	Purpose: This is a program that implements cipher #9: Polybius square cipher.
+	Purpose: This is a program that implements cipher #6: Polybius square cipher.
 */
 
 #include <iostream>

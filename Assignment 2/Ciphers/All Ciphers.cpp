@@ -3,31 +3,96 @@
 	Program Name: All Ciphers.cpp
 	Last Modification Date: 25/02/2018
 	Ahmed Nasr Eldardery (megadardery): G2 - 20170034
-	Purpose: This is a program that implements all 10 different types of ciphers in Assignment 2;
+	Adham Mamdouh Mohamed (adhammamdouh): G2 - 20170039
+	Ashraf Samir Ali (ashrafsamir): G2 - 20170053
+	Purpose: This is a program that implements all 10 different types of ciphers in Assignment 2
+
 */
 #include <iostream>
 #include <string>
+#include <vector>
+
 using namespace std;
 
-#define EMPTY ""
-const int c_morse_size = 64;
+int getNumber(int, int, string);
+string getAlphabet();
 
-const string c_morse[c_morse_size] = { " ", "-.-.--", ".-..-.", EMPTY, "...-..-", EMPTY, ".-...", ".----.", "-.--.", "-.--.-", EMPTY, ".-.-.", "--..--", "-....-", ".-.-.-", "-..-.", //	space !"#$%&'()*+,-./
-"-----", ".----", "..---", "...--", "....-", ".....", "-....", "--...", "---..", "----.",	//	Numbers
-"---...", "-.-.-.", EMPTY, "-...-", EMPTY, "..--..", ".--.-.", //	:;<=>?@
-".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--..", //letters
-EMPTY, EMPTY, EMPTY, EMPTY, "..--.-" }; //	[\]^_
+string AffineCipher(string, bool);
+string CaesarCipher(string, bool);
+string AtbashCipher(string, bool);
+string ROT13Cipher(string, bool);
+string BaconianCipher(string, bool);
+string SimpleSubstitutionCipher(string, bool);
+string PolybiusSquareCipher(string, bool);
+string MorseCipher(string, bool);
+string XORCipher(string, bool);
+string RailfenceCipher(string, bool);
+
+int main() {
+	string(*ciphers[10])(string, bool) = { AffineCipher,CaesarCipher,AtbashCipher,ROT13Cipher,BaconianCipher,SimpleSubstitutionCipher,PolybiusSquareCipher,MorseCipher,XORCipher,RailfenceCipher };
+
+	cout << "Ahlan ya user ya habibi.\n";
+
+	while (true) {
+		cout << "\nWhat do you like to do today?\n"
+			<< " 1- Cipher a message\n"
+			<< " 2- Decipher a message\n"
+			<< " 3- End\n";
+
+		string action;
+		getline(cin, action);
+
+		if (action == "3") {
+			cout << "\nHabibi ya user, ashofak later :)\n";
+			break;
+		}
+		else if (action != "2" && action != "1") {
+			cout << "Invalid input.\n";
+			continue;
+		}
+
+		cout << "\nWhich encryption algorithm do you want to try? (0-9)\n";
+		cout << " 0- Affine Cipher\n";
+		cout << " 1- Caesar Cipher\n";
+		cout << " 2- Atbash Cipher\n";
+		cout << " 3- ROT13 Cipher\n";
+		cout << " 4- Baconian Cipher\n";
+		cout << " 5- Simple Subsititution Cipher\n";
+		cout << " 6- Polybius Square Cipher\n";
+		cout << " 7- Morse Code Cipher\n";
+		cout << " 8- XOR Cipher\n";
+		cout << " 9- Rail-fence Cipher\n";
+
+		int mycipher = getNumber(0, 9, "");
+
+		if (action == "1") {
+			cout << "\nPlease enter the message to cipher:\n";
+			string message;
+			getline(cin, message);
+			cout << ciphers[mycipher](message, true) << "\n";
+		}
+		else if (action == "2") {
+			cout << "\nPlease enter the message to decipher:\n";
+			string message;
+			getline(cin, message);
+			cout << ciphers[mycipher](message, false) << "\n";
+		}
+
+		cout << "\n";
+	}
+	return 0;
+}
+
 
 int getNumber(int begin, int end, string message) {
 	int answer;
 	while (true) {
 		string raw;
 		cout << message;
-		getline(cin, raw);
-		try {
-			answer = stoi(raw);
-		}
-		catch (...) {
+		cin >> answer;
+		if (cin.fail()) {
+			cin.clear();
+			cin.ignore(INT_MAX, '\n');
 			cout << "Invalid input.\n";
 			continue;
 		}
@@ -35,6 +100,7 @@ int getNumber(int begin, int end, string message) {
 			cout << "Invalid input.\n";
 			continue;
 		}
+		cin.ignore(INT_MAX, '\n');
 		break;
 	}
 	return answer;
@@ -74,12 +140,12 @@ string getAlphabet() {
 	}
 }
 
-//--------------------------------------------------------------------------------------------------------------------------------------------
 string AffineCipher(string msg, bool cipher) {
 	int a, b, c;
 
 	while (true) {
-		a = getNumber(1, 25, "\nThe cipher uses the formula (ax + b) mod 26 and the decipher uses the formula c(y - b) mod 26 \na is (1-25): ");
+		cout << "\nThe cipher uses the formula (ax + b) mod 26 and the decipher uses the formula c(y - b) mod 26 \n";
+		a = getNumber(1, 25, "a is (1-25): ");
 		b = getNumber(0, 25, "b is (0-25): ");
 		c = getNumber(1, 25, "c is (1-25): ");
 		if (a*c % 26 == 1)
@@ -89,7 +155,7 @@ string AffineCipher(string msg, bool cipher) {
 			return "";
 		}
 	}
-	
+
 	char bias;
 	string result = "";
 
@@ -109,9 +175,8 @@ string AffineCipher(string msg, bool cipher) {
 	}
 	return result;
 }
-
 string CaesarCipher(string msg, bool cipher) {
-	int shifts = getNumber(0,25, "\nEnter the number of right shifts you want (0-25): \n");
+	int shifts = getNumber(0, 25, "\nEnter the number of right shifts you want (0-25): \n");
 	char bias;
 	string result = "";
 
@@ -225,6 +290,11 @@ string SimpleSubstitutionCipher(string msg, bool cipher) {
 	return result;
 }
 string PolybiusSquareCipher(string msg, bool cipher) {
+    string key;
+    cout << "Enter The secret key (5 unique characters):" << endl;
+    getline(cin, key);
+
+
 	string result;
 	int first = -1;
 
@@ -239,33 +309,55 @@ string PolybiusSquareCipher(string msg, bool cipher) {
 				result += msg[i];
 				continue;
 			}
-			if (letter >= 22) --letter;
+			if (letter == 25){
+                result += "00";
+			}
+			else{
+                int a = letter / 5;
+                int b = letter % 5;
 
-			int a = letter / 5 + 1;
-			int b = letter % 5 + 1;
-
-			result += a + '0';
-			result += b + '0';
+                result += key[a];
+                result += key[b];
+			}
 		}
 		else {
-			if (msg[i] >= '0' && msg[i] <= '5') {
-				if (first == -1)
-					first = msg[i] - '0' - 1;
-				else {
-					int code = 5 * first + msg[i] - '0' - 1;
-					if (code >= 22)
-						++code;
-					result += code + 'A';
-					first = -1;
-				}
-			}
-			else
-				result += msg[i];
+            int j;
+            for (j = 0; j < 5; ++j){
+                    if (key[j]==msg[i])
+                        break;
+            }
+            if (j == 5){
+                if (msg[i] == '0'){
+                    result += 'Z';
+                    ++i;
+                }
+                else
+                    result+= msg[i];
+            }
+            else{
+                if (first == -1)
+                    first = j;
+                else {
+                    int code = 5 * first + j;
+                    first = -1;
+                    result += code + 'A';
+
+                }
+            }
+
 		}
 	}
 	return result;
 }
 string MorseCipher(string msg, bool cipher) {
+	const int c_morse_size = 64;
+
+	const string c_morse[c_morse_size] = { " ", "-.-.--", ".-..-.", "", "...-..-", "", ".-...", ".----.", "-.--.", "-.--.-", "", ".-.-.", "--..--", "-....-", ".-.-.-", "-..-.", //	space !"#$%&'()*+,-./
+		"-----", ".----", "..---", "...--", "....-", ".....", "-....", "--...", "---..", "----.",	//	Numbers
+		"---...", "-.-.-.", "", "-...-", "", "..--..", ".--.-.", //	:;<=>?@
+		".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--..", //letters
+		"", "", "", "", "..--.-" }; //	[\]^_
+
 	string result = "";
 	string currLetter = "";
 	if (!cipher) msg += ' ';
@@ -273,7 +365,7 @@ string MorseCipher(string msg, bool cipher) {
 		if (cipher) {
 			if (msg[i] >= 'a' && msg[i] <= 'z')
 				msg[i] -= 0x20;
-			else if (msg[i]<' ' || msg[i] > '_' || c_morse[msg[i] - ' '] == EMPTY)
+			else if (msg[i]<' ' || msg[i] > '_' || c_morse[msg[i] - ' '] == "")
 				continue;
 
 			result += c_morse[msg[i] - ' '] + " ";
@@ -302,7 +394,10 @@ string MorseCipher(string msg, bool cipher) {
 	return result;
 }
 string XORCipher(string msg, bool cipher) {
-	char secret;
+	cout << "How do you want to interpret your input\n1- String Message\n2- Hexadecimal Message\n";
+	int response = getNumber(1, 2, "");
+
+	char secretKey;
 	while (true) {
 		cout << "\nEnter the secret key: \n";
 		string raw;
@@ -311,93 +406,99 @@ string XORCipher(string msg, bool cipher) {
 			cout << "Invalid input.\n";
 			continue;
 		}
-		secret = raw[0];
+		secretKey = raw[0];
 		break;
 	}
-	string hexa = "\n(Hexa: ";
+
+	string hexaMsg = "\n(Hexa: ";
 	string result = "";
-	for (int i = 0; i < (int)msg.length(); ++i) {
-		int curr = msg[i] ^ secret;
-		hexa = (hexa + "0123456789ABCDEF"[curr % 16]) + "0123456789ABCDEF"[(curr >> 4) % 16];
-		result += curr;
+
+	if (response == 1) {
+		for (int i = 0; i < (int)msg.length(); ++i) {
+			int curr = (msg[i] ^ secretKey) | 0x60;
+			hexaMsg = (hexaMsg + "0123456789abcdef"[curr % 16]) + "0123456789abcdef"[(curr >> 4) % 16];
+			result += curr;
+		}
 	}
-	return result + hexa + ")";
+	else {
+		int dec = 0, charVal = 0;
+		for (int i = 0; i < (int)msg.length(); ++i) {
+			if (msg[i] >= '0' && msg[i] <= '9')
+				dec = (msg[i] - '0');
+
+			else if (msg[i] >= 'a' && msg[i] <= 'f')
+				dec = ((msg[i] - 'a') + 10);
+
+			else if (msg[i] >= 'A' && msg[i] <= 'F')
+				dec = ((msg[i] - 'A') + 10);
+
+			if (i % 2 == 0)
+				charVal += (dec * 16);
+
+			else {
+				charVal += dec;
+				int curr = (charVal ^ secretKey) | 0x60;
+				charVal = 0;
+				hexaMsg = (hexaMsg + "0123456789abcdef"[curr % 16]) + "0123456789abcdef"[(curr >> 4) % 16];
+				result += curr;
+			}
+		}
+	}
+	return result + hexaMsg + ")";
 }
+
 string RailfenceCipher(string msg, bool cipher) {
-	int lines = getNumber(0, 25, "\nEnter the number of lines you want (0-25): \n");
-	int jump = 2 * lines - 2;
-	if (jump == 0) jump = 1;
+	int key = getNumber(1, 25, "\nEnter the number of lines you want (1-25): \n");
+	if (key == 1) return msg;
+	int msgLen = msg.length(), k = -1, row = 0, col = 0;
+	vector<vector<char>> railMatrix(key,vector<char>(msgLen));
 
-	string result;
-	if (cipher)
-		result.resize(msg.size());
+	for (int i = 0; i < key; ++i)
+		for (int j = 0; j < msgLen; ++j)
+			railMatrix[i][j] = '-';
 
-	int curr = 0;
-	for (int mystep = 0; mystep < lines; ++mystep) {
-		int advance = mystep * 2;
+	for (int i = 0; i < msgLen; ++i) {
+		railMatrix[row][col++] = (cipher ? msg[i] : '*');
 
-		for (int i = 0 - mystep; i < (int)msg.length(); i += jump) {
-			if (i >= 0)
-				if (cipher)
-					result += msg[i];
-				else
-					result[i] = msg[curr++];
+		if (row == 0 || row == key - 1)
+			k = -k;
 
-			if (advance != 0 && advance != jump)
-				if (i + advance < (int)msg.length())
-					if (cipher)
-						result += msg[i + advance];
-					else
-						result[i + advance] = msg[curr++];
-		}
+		row += k;
 	}
 
-	return result;
-}
-//--------------------------------------------------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------------------------------------------------
+	if (cipher) {
 
-int main() {
+		string result;
 
-	string(*ciphers[10])(string, bool) = { AffineCipher,CaesarCipher,AtbashCipher,ROT13Cipher,BaconianCipher,SimpleSubstitutionCipher,PolybiusSquareCipher,MorseCipher,XORCipher,RailfenceCipher };
+		for (int i = 0; i < key; ++i)
+			for (int j = 0; j < msgLen; ++j)
+				if (railMatrix[i][j] != '-')
+					result += railMatrix[i][j];
 
-	cout << "Ahlan ya user ya habibi.\n";
-
-	while (true) {
-		cout << "\nWhat do you like to do today?\n" 
-			<< "1- Cipher a message\n"
-			<< "2- Decipher a message\n"
-			<< "3- End\n";
-
-		string action;
-		getline(cin, action);
-		
-		if (action == "3") {
-			cout << "\nHabibi ya user, ashofak later :)\n";
-			break;
-		}
-		else if (action != "2" && action != "1") {
-			cout << "Invalid input.\n";
-			continue;
-		}
-
-		int mycipher = getNumber(0, 9, "\nWhich encryption algorithm do you want to try? (0-9)\n");
-
-		if (action == "1") {
-			cout << "\nPlease enter the message to cipher:\n";
-			string message;
-			getline(cin, message);
-			cout << ciphers[mycipher](message, true) << "\n";
-		}
-		else if (action == "2") {
-			cout << "\nPlease enter the message to decipher:\n";
-			string message;
-			getline(cin, message);
-			cout << ciphers[mycipher](message, false) << "\n";
-		}
-
-		cout << "\n";
+		return result;
 	}
+	else {
+		int m = 0;
 
-	return 0;
+		for (int i = 0; i < key; ++i)
+			for (int j = 0; j < msgLen; ++j)
+				if (railMatrix[i][j] == '*')
+					railMatrix[i][j] = msg[m++];
+
+		row = 0;
+		col = 0;
+		k = -1;
+
+		string result;
+
+		for (int i = 0; i < msgLen; ++i) {
+			result += railMatrix[row][col++];
+
+			if (row == 0 || row == key - 1)
+				k = -k;
+
+			row += k;
+		}
+		return result;
+	}
 }
