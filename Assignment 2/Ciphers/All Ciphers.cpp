@@ -1,7 +1,7 @@
-﻿/* FCI – Programming 1 – 2018 - Assignment 2
+/* FCI – Programming 1 – 2018 - Assignment 2
 
 	Program Name: All Ciphers.cpp
-	Last Modification Date: 25/02/2018
+	Last Modification Date: 02/03/2018
 	Ahmed Nasr Eldardery (megadardery): G2 - 20170034
 	Adham Mamdouh Mohamed (adhammamdouh): G2 - 20170039
 	Ashraf Samir Ali (ashrafsamir): G2 - 20170053
@@ -69,13 +69,15 @@ int main() {
 			cout << "\nPlease enter the message to cipher:\n";
 			string message;
 			getline(cin, message);
-			cout << ciphers[mycipher](message, true) << "\n";
+			message = ciphers[mycipher](message, true);
+			cout << "\nCiphered message:\n" << message << "\n";
 		}
 		else if (action == "2") {
 			cout << "\nPlease enter the message to decipher:\n";
 			string message;
 			getline(cin, message);
-			cout << ciphers[mycipher](message, false) << "\n";
+			message = ciphers[mycipher](message, false);
+			cout << "\nDeciphered message:\n" << message << "\n";
 		}
 
 		cout << "\n";
@@ -94,14 +96,14 @@ int getNumber(int begin, int end, string message) {
 			cin.clear();
 			cin.ignore(INT_MAX, '\n');
 			cout << "Invalid input.\n";
-			continue;
 		}
-		if (answer < begin || answer > end) {
-			cout << "Invalid input.\n";
-			continue;
+		else if (answer < begin || answer > end) {
+			cout << "Input out of range (" << begin << "-" << end << ")\n";
 		}
-		cin.ignore(INT_MAX, '\n');
-		break;
+		else {
+			cin.ignore(INT_MAX, '\n');
+			break;
+		}
 	}
 	return answer;
 }
@@ -141,21 +143,25 @@ string getAlphabet() {
 }
 
 string AffineCipher(string msg, bool cipher) {
+	const int cValues[] = { 1, 9, 21, 15, 3, 19, -1, 7, 23, 11, 5, 17, 25 };
 	int a, b, c;
-
-	while (true) {
-		cout << "\nThe cipher uses the formula (ax + b) mod 26 and the decipher uses the formula c(y - b) mod 26 \n";
-		a = getNumber(1, 25, "a is (1-25): ");
-		b = getNumber(0, 25, "b is (0-25): ");
-		c = getNumber(1, 25, "c is (1-25): ");
-		if (a*c % 26 == 1)
-			break;
-		else {
-			cout << "\nThe values you have inputted cannot be used for the cipher operation, they must satisfy the condition (a * c) mod 26 = 1\n";
-			return "";
+	if (cipher) {
+		a = getNumber(1, 25, "a is (1-25) not divisible by 2 nor 13: ");
+		while (a % 13 == 0 || a % 2 == 0) {
+			cout << "Invalid input.\n";
+			a = getNumber(1, 25, "a is (1-25) not divisible by 2 nor 13: ");
+		}
+		b = getNumber(0, 25, "b is (0-25)                          : ");
+		cout << "The corresponding value for c is: " << cValues[a / 2] << "\n";
+	}
+	else {
+		b = getNumber(0, 25, "b is (0-25)                          : ");
+		c = getNumber(0, 25, "c is (0-25) not divisible by 2 nor 13: ");
+		while (c % 13 == 0 || c % 2 == 0) {
+			cout << "Invalid input.\n";
+			c = getNumber(0, 25, "c is (0-25) not divisible by 2 nor 13: ");
 		}
 	}
-
 	char bias;
 	string result = "";
 
@@ -176,7 +182,11 @@ string AffineCipher(string msg, bool cipher) {
 	return result;
 }
 string CaesarCipher(string msg, bool cipher) {
-	int shifts = getNumber(0, 25, "\nEnter the number of right shifts you want (0-25): \n");
+	int shifts;
+	if (cipher)
+		shifts = getNumber(0, 25, "\nEnter the number of right shifts you want (0-25): \n");
+	else
+		shifts = getNumber(0, 25, "\nEnter the number of left shifts you want (0-25): \n");
 	char bias;
 	string result = "";
 
@@ -290,9 +300,21 @@ string SimpleSubstitutionCipher(string msg, bool cipher) {
 	return result;
 }
 string PolybiusSquareCipher(string msg, bool cipher) {
-    string key;
-    cout << "Enter The secret key (5 unique characters):" << endl;
-    getline(cin, key);
+	string key;
+	while (true) {
+		string raw;
+		cout << "Enter The secret key (5 unique characters):" << endl;
+		getline(cin, raw);
+		for (int i = 0; i < (int)raw.length(); ++i) {
+			if (raw[i] != ' ')
+				key += raw[i];
+		}
+		if (key.length() != 5) {
+			cout << "Invalid input.\n";
+		}
+		else
+			break;
+	}
 
 
 	string result;
@@ -309,41 +331,41 @@ string PolybiusSquareCipher(string msg, bool cipher) {
 				result += msg[i];
 				continue;
 			}
-			if (letter == 25){
-                result += "00";
+			if (letter == 25) {
+				result += "00";
 			}
-			else{
-                int a = letter / 5;
-                int b = letter % 5;
+			else {
+				int a = letter / 5;
+				int b = letter % 5;
 
-                result += key[a];
-                result += key[b];
+				result += key[a];
+				result += key[b];
 			}
 		}
 		else {
-            int j;
-            for (j = 0; j < 5; ++j){
-                    if (key[j]==msg[i])
-                        break;
-            }
-            if (j == 5){
-                if (msg[i] == '0'){
-                    result += 'Z';
-                    ++i;
-                }
-                else
-                    result+= msg[i];
-            }
-            else{
-                if (first == -1)
-                    first = j;
-                else {
-                    int code = 5 * first + j;
-                    first = -1;
-                    result += code + 'A';
+			int j;
+			for (j = 0; j < 5; ++j) {
+				if (key[j] == msg[i])
+					break;
+			}
+			if (j == 5) {
+				if (msg[i] == '0') {
+					result += 'Z';
+					++i;
+				}
+				else
+					result += msg[i];
+			}
+			else {
+				if (first == -1)
+					first = j;
+				else {
+					int code = 5 * first + j;
+					first = -1;
+					result += code + 'A';
 
-                }
-            }
+				}
+			}
 
 		}
 	}
@@ -416,7 +438,7 @@ string XORCipher(string msg, bool cipher) {
 	if (response == 1) {
 		for (int i = 0; i < (int)msg.length(); ++i) {
 			int curr = (msg[i] ^ secretKey) | 0x60;
-			hexaMsg = (hexaMsg + "0123456789abcdef"[curr % 16]) + "0123456789abcdef"[(curr >> 4) % 16];
+			hexaMsg = (hexaMsg + "0123456789abcdef"[(curr >> 4) % 16]) + "0123456789abcdef"[curr % 16];
 			result += curr;
 		}
 	}
@@ -438,9 +460,10 @@ string XORCipher(string msg, bool cipher) {
 			else {
 				charVal += dec;
 				int curr = (charVal ^ secretKey) | 0x60;
-				charVal = 0;
 				hexaMsg = (hexaMsg + "0123456789abcdef"[curr % 16]) + "0123456789abcdef"[(curr >> 4) % 16];
 				result += curr;
+
+				charVal = 0;
 			}
 		}
 	}
@@ -451,7 +474,7 @@ string RailfenceCipher(string msg, bool cipher) {
 	int key = getNumber(1, 25, "\nEnter the number of lines you want (1-25): \n");
 	if (key == 1) return msg;
 	int msgLen = msg.length(), k = -1, row = 0, col = 0;
-	vector<vector<char>> railMatrix(key,vector<char>(msgLen));
+	vector<vector<char>> railMatrix(key, vector<char>(msgLen));
 
 	for (int i = 0; i < key; ++i)
 		for (int j = 0; j < msgLen; ++j)
