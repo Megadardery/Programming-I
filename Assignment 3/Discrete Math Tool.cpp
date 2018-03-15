@@ -8,31 +8,61 @@ void print_set(const int[], int);
 void create_file(int[], int);
 void load_file(int[], int&);
 void prepare_set(int[], int&);
+void Disjoint(int set1[] , int set2[] , int c1 , int c2);
+void Set_equality(int set1[] , int set2[] , int c1 , int c2);
+void proper_subset(int set1[] , int set2[] , int c1 , int c2);
 
 int main()
 {
 	int choose;
-	int set[10000];
-	int c = 0;
-	cout << "1 >> Create File" << endl;
-	cout << "2 >> Load File" << endl;
-	cin >> choose;
-	cin.ignore(INT_MAX, '\n');
-	if (choose == 1) {
-		get_set(set, c);
-		prepare_set(set, c);
-		//create_file(set,c);
-		cout << endl;
-		print_set(set, c);
-	}
-	else if (choose == 2) {
-		load_file(set, c);
-		prepare_set(set, c);
-		print_set(set, c);
-	}
-	/*get_set(set, c);
-	cout << endl;
-	print_set(set,c);*/
+	int set1[10000] , set2[10000];
+	int c1 = 0 , c2 = 0;
+	cout << "Ahlan ya user ya Habibi" << endl;
+	cout << "what do you want to do today" << endl;
+    while(true){
+        cout << "\n1 >> Create File" << endl;
+        cout << "2 >> Load File" << endl;
+        cout << "3 >> Display data sets" << endl;
+        cout << "10 >> Check if A and B are disjoint" << endl;
+        cout << "11 >> Check if A and B are equal" << endl;
+        cout << "12 >> Check if a set is a proper subset of other" << endl;
+        cin >> choose;
+        cin.ignore(INT_MAX, '\n');
+        cout << endl;
+        if(choose == 13)
+            return 0;
+        switch(choose){
+            case 1 :
+                cout << "Enter the First Set :" << endl;
+                get_set(set1 , c1);
+                prepare_set(set1 , c1);
+                create_file(set1 , c1);
+                cout << "Enter the Second Set :" << endl;
+                get_set(set2 , c2);
+                prepare_set(set2 , c2);
+                create_file(set2 , c2);
+                break;
+            case 2 :
+                load_file(set1 , c1);
+                load_file(set2 , c2);
+                break;
+            case 3 :
+                print_set(set1 , c1);
+                print_set(set1 , c2);
+                break;
+            case 10 :
+                Disjoint(set1 , set2 , c1 ,c2);
+                break;
+            case 11 :
+                Set_equality(set1 , set2 , c1 , c2);
+                break;
+            case 12 :
+                proper_subset(set1 , set2 , c1 , c2);
+                break;
+            default :
+                cout << "Invalid Input !!" << endl;
+        }
+    }
 }
 void get_set(int set[], int &c) {
 	c = 0;
@@ -123,4 +153,63 @@ void prepare_set(int set[], int& c) {
 		set[i] = set[min];
 		set[min] = temp;			//swap
 	}
+}
+
+void Disjoint(int set1[] , int set2[] , int c1 , int c2){
+    int found = 0;
+    for(int i = 0 ; i < c1 ; ++i){
+        for(int j = 0 ; j < c2 ; ++j){
+            if(set1[i] == set2[j]){
+                found = 1;
+                cout << set1[i] << " " ;
+            }
+        }
+    }
+    if(found == 0)
+        cout << "The Sets are Disjoint" << endl;
+    else
+        cout << endl <<"The Sets aren't Disjoint!" << endl;
+}
+
+void Set_equality(int set1[] , int set2[] , int c1 , int c2){
+    int found_element = 0;
+    if(c1 != c2)
+        cout << "The Sets aren't equal to each other!" << endl;
+    else{
+        for(int i = 0 ; i < c1 ; ++i){
+            if(set1[i] != set2[i]){
+                found_element = 1;
+                cout << "The Sets aren't equal to each other!" << endl;
+                break;
+            }
+        }
+        if(found_element == 0)
+            cout << "The Sets are equal ^_^" << endl;
+    }
+}
+
+void proper_subset(int set1[] , int set2[] , int c1 , int c2){
+    if(c1 == c2)
+        cout << "No subset!" << endl;
+    else {
+        int sub = 1;
+        if(c2 < c1){
+            c1 = c2;
+            sub = 2;
+        }
+        else
+            cout << "No Subset!" << endl;
+
+        for (int i = 0 ; i < c1 ; ++i){
+            if(set1[i] != set2[i]){
+                sub = 0;
+                cout << "No subset!" << endl;
+                break;
+            }
+        }
+        if(sub == 1)
+            cout << "the First Set is Proper subset from the Second Set" << endl;
+        else if (sub == 2)
+            cout << "the Second Set is Proper subset from the First Set" << endl;
+    }
 }
