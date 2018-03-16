@@ -3,120 +3,124 @@
 
 using namespace std;
 
-void get_set(int[] , int&);
-void print_set(const int[] , int);
-void create_file(int[] , int);
-void load_file(int[] , int&);
-void prepare_set(int[] , int&);
-void Disjoint(int[] , int[] , int , int);
-void Set_equality(int[] , int[] , int , int);
-void proper_subset(int[] , int[] , int , int , int);
-void proper_subset_assist(int [] , int [] , int , int);
-void Set_union(int set1[] , int set2[] , int c1 , int c2);
+const int c_setSize = 10000;
+
+int get_number(int, int);
+
+void get_set(int[], int&);
+void load_file(int[], int&); 
+void prepare_set(int[], int&);
+void create_file(int[], int);
+
+void print_set(const int[], int);
+
+void set_disjoint(int[], int[], int, int);
+void set_equality(int[], int[], int, int);
+void proper_subset(int[], int[], int, int, int);
+void proper_subset_assist(int[], int[], int, int);
+
+void set_union(int[], int[], int, int);
+void set_intersection(int[], int[], int, int);
+void set_difference(int[], int[], int, int);
 
 int main()
 {
-	int choose;
-	int set1[10000] , set2[10000];
-	int c1 = 0 , c2 = 0;
+	//The two sets are saved together in an array.
+	//This will make it easier to convert the program to 3 sets.
+
+	//to access set A use 'set[0]'. To access set B, use 'set[1]'
+	int set[2][c_setSize];
+	//to access size of set A use 'c[0]'. To access size of set B, use 'c[1]'
+	int c[2] = {0, 0};
+
 	cout << "Ahlan ya user ya Habibi" << endl;
 	cout << "what do you want to do today" << endl;
-    while(true){
-        cout << "\n1 >> Create File" << endl;
-        cout << "2 >> Load File" << endl;
-        cout << "3 >> Display data sets" << endl;
-        cout << "4 >> Union" << endl;
-        cout << "10 >> Check if A and B are disjoint" << endl;
-        cout << "11 >> Check if A and B are equal" << endl;
-        cout << "12 >> Check if a set is a proper subset of other" << endl;
-        cout << "13 >> End" << endl;
-        cin >> choose;
-        cin.ignore(INT_MAX, '\n');
-        cout << endl;
-        switch(choose){
-            case 1 :
-                cout << "Enter the First Set :" << endl;
-                get_set(set1 , c1);
-                prepare_set(set1 , c1);
-                create_file(set1 , c1);
-                cout << "Enter the Second Set :" << endl;
-                get_set(set2 , c2);
-                prepare_set(set2 , c2);
-                create_file(set2 , c2);
-                break;
-            case 2 :
-                load_file(set1 , c1);
-                prepare_set(set1 , c1);
-                load_file(set2 , c2);
-                prepare_set(set2 , c2);
-                break;
-            case 3 :
-                print_set(set1 , c1);
-                print_set(set2 , c2);
-                break;
-            case 4 :
-                Set_union(set1 , set2 , c1 , c2);
-                break;
-            case 10 :
-                Disjoint(set1 , set2 , c1 , c2);
-                break;
-            case 11 :
-                Set_equality(set1 , set2 , c1 , c2);
-                break;
-            case 12 :
-                proper_subset_assist(set1 , set2 , c1 , c2);
-                break;
-            case 13 :
-                return 0;
-            default :
-                cout << "Invalid Input !!" << endl;
-        }
-    }
+	while (true) {
+		cout << "\n1 >> Enter a new data set" << endl;
+		cout << "2 >> Load data set from file" << endl;
+		cout << "3 >> Display current data set" << endl;
+		cout << "4 >> Union of A and B" << endl;
+		cout << "5 >> Intersection of A and B" << endl;
+		cout << "6 >> Difference between A and B (A - B)" << endl;
+		cout << "10 >> Check if A and B are disjoint" << endl;
+		cout << "11 >> Check if A and B are equal" << endl;
+		cout << "12 >> Check if a set is a proper subset of other" << endl;
+		cout << "13 >> End" << endl;
+		int k;
+		int choose = get_number(1, 13);
+		cout << endl;
+		switch (choose) {
+		case 1:  // >> Enter a new data set
+			cout << "Which set do you want to modify (1-2): ";
+			k = get_number(1, 2) - 1;
+			get_set(set[k], c[k]);
+			
+			break;
+		case 2:  // >> Load data set from file
+			cout << "Which set do you want to modify (1-2): ";
+			k = get_number(1, 2) - 1;
+			load_file(set[k], c[k]);
+			
+			break;
+		case 3:  // >> Display current data set
+			cout << "Set A:\n";
+			print_set(set[0], c[0]);
+			cout << "Set B:\n";
+			print_set(set[1], c[1]);
+			break;
+		case 4:  // >> Union of A and B
+			set_union(set[0], set[1], c[0], c[1]);
+			break;
+		case 5:  // >> Intersection of A and B
+			set_intersection(set[0], set[1], c[0], c[1]);
+			break;
+		case 6:  // >> Difference between A and B (A - B)
+			set_difference(set[0], set[1], c[0], c[1]);
+			break;
+		case 10: // >> Check if A and B are disjoint
+			set_disjoint(set[0], set[1], c[0], c[1]);
+			break;
+		case 11: // >> Check if A and B are equal
+			set_equality(set[0], set[1], c[0], c[1]);
+			break;
+		case 12: // >> Check if a set is a proper subset of other
+			proper_subset_assist(set[0], set[1], c[0], c[1]);
+			break;
+		case 13: // >> End
+			return 0;
+		}
+	}
 }
+
+int get_number(int begin, int end) {
+	int answer;
+	while (true) {
+		cin >> answer;
+		if (cin.fail()) {
+			cin.clear();
+			cin.ignore(INT_MAX, '\n');
+			cout << "Invalid input.\n";
+		}
+		else if (answer < begin || answer > end) {
+			cout << "Input out of range (" << begin << "-" << end << ")\n";
+		}
+		else {
+			cin.ignore(INT_MAX, '\n');
+			break;
+		}
+	}
+	return answer;
+}
+
 void get_set(int set[], int &c) {
+	cout << "Enter the data set (seperate numbers by spaces, press Enter after you are done):" << endl;
 	c = 0;
 	while (true) {
-		int x;
 		cin >> set[c++];
-		if (cin.get() == '\n')
+		if (cin.get() == '\n' || c == c_setSize)
 			break;
 	}
-}
-
-void print_set(const int set[], int c) {
-	cout << "{";
-	for (int i = 0; i < c; ++i) {
-		cout << set[i];
-		if (i != c - 1)
-			cout << ", ";
-		else
-			cout << "}" << endl;
-	}
-}
-
-void get_path(char path[]) {
-	cout << "Enter path : ";
-	cin.getline(path, 100, '\n');
-	//----------------: unallowed                / \ : * ? " < > |
-}
-
-void create_file(int set[], int c) {
-	ofstream file;
-	while (true) {
-		char path[100];
-		cout << "Enter the path of the file to save: ";
-		cin.getline(path, 100, '\n');
-		file.open(path);
-		if (!file)
-			cout << "Couldn't access the file.\n";
-		else
-			break;
-	}
-
-	for (int i = 0; i < c; ++i) {
-		file << set[i] << " ";
-	}
-	cout << "File created successfully! ^_^" << endl;
+	prepare_set(set, c);
 }
 
 void load_file(int set[], int& c) {
@@ -134,9 +138,10 @@ void load_file(int set[], int& c) {
 
 	int current;
 	c = 0;
-	while (file >> current && !file.eof()) {
+	while (file >> current && !file.eof() && c < c_setSize) {
 		set[c++] = current;
 	}
+	prepare_set(set, c);
 	cout << "File loaded successfully! ^_^" << endl;
 }
 
@@ -164,85 +169,166 @@ void prepare_set(int set[], int& c) {
 	}
 }
 
-void Disjoint(int set1[] , int set2[] , int c1 , int c2){
-    int found = 0;
-    for(int i = 0 ; i < c1 ; ++i){
-        for(int j = 0 ; j < c2 ; ++j){
-            if(set1[i] == set2[j]){
-                found = 1;
-                cout << set1[i] << " " ;
-            }
-        }
-    }
-    if(found == 0)
-        cout << "The Sets are Disjoint" << endl;
-    else
-        cout << endl <<"The Sets aren't Disjoint!" << endl;
+void create_file(int set[], int c) {
+	ofstream file;
+	while (true) {
+		char path[100];
+		cout << "Enter the path of the file to save: ";
+		cin.getline(path, 100, '\n');
+		file.open(path);
+		if (!file)
+			cout << "Couldn't access the file.\n";
+		else
+			break;
+	}
+
+	for (int i = 0; i < c; ++i) {
+		file << set[i] << " ";
+	}
+	cout << "File created successfully! ^_^" << endl;
 }
 
-void Set_equality(int set1[] , int set2[] , int c1 , int c2){
-    int found_element = 0;
-    if(c1 != c2)
-        cout << "The Sets aren't equal to each other!" << endl;
-    else{
-        for(int i = 0 ; i < c1 ; ++i){
-            if(set1[i] != set2[i]){
-                found_element = 1;
-                cout << "The Sets aren't equal to each other!" << endl;
-                break;
-            }
-        }
-        if(found_element == 0)
-            cout << "The Sets are equal ^_^" << endl;
-    }
+void print_set(const int set[], int c) {
+	cout << "{";
+	for (int i = 0; i < c; ++i) {
+		cout << set[i];
+		if (i != c - 1)
+			cout << ", ";
+	}
+	cout << "}" << endl;
 }
 
-void proper_subset(int set1[] , int set2[] , int c1 , int c2 , int sub ){
-        int counter = 0 ;
-        for (int i = 0 ; i < c1 ; ++i){
-            for(int j = 0 ; j < c2 ; ++j){
-                if(set1[i] != set2[j]){
-                    ++counter;
-                }
-                else if(set1[i] == set2[j])
-                    break;
-            }
-            if(counter == c2){
-                sub = 0 ;
-                break;
-            }
-        }
-        if(sub == 1)
-            cout << "the First Set is Proper subset from the Second Set" << endl;
-        else if (sub == 2)
-            cout << "the Second Set is Proper subset from the First Set" << endl;
-        else if (sub == 0)
-            cout << "No Proper Subset!" << endl;
+/*--------------------------------------------------------------------------------------
+	Adham Mamdouh
+	* Check if A and B are disjoint					(A ∩ B = {})
+	* Check if A and B are equal					(A = B)
+	* Check if a set is a proper subset of other	(A ⊂ B or B ⊂ A)
+--------------------------------------------------------------------------------------*/
+void set_disjoint(int set1[], int set2[], int c1, int c2) {
+	int found = 0;
+	for (int i = 0; i < c1; ++i) {
+		for (int j = 0; j < c2; ++j) {
+			if (set1[i] == set2[j]) {
+				found = 1;
+				cout << set1[i] << " ";
+			}
+		}
+	}
+	if (found == 0)
+		cout << "The Sets are Disjoint" << endl;
+	else
+		cout << endl << "The Sets aren't Disjoint!" << endl;
 }
 
-void proper_subset_assist(int set1[] , int set2[] , int c1 , int c2){
-    int sub = 0;
-    if(c1 == c2)
-        cout << "No Proper Subset" << endl;
-    else if (c1 < c2){
-        sub = 1;
-        proper_subset(set1 , set2 , c1 ,c2 , sub);
-    }
-    else{
-        sub = 2;
-        proper_subset(set2 , set1 , c2 , c1 , sub);
-    }
+void set_equality(int set1[], int set2[], int c1, int c2) {
+	int found_element = 0;
+	if (c1 != c2)
+		cout << "The Sets aren't equal to each other!" << endl;
+	else {
+		for (int i = 0; i < c1; ++i) {
+			if (set1[i] != set2[i]) {
+				found_element = 1;
+				cout << "The Sets aren't equal to each other!" << endl;
+				break;
+			}
+		}
+		if (found_element == 0)
+			cout << "The Sets are equal ^_^" << endl;
+	}
 }
 
-void Set_union(int set1[] , int set2[] , int c1 , int c2){
-    int UnionSet[10000] ;
-    for(int i = 0 ; i < c1 ; ++i){
-        UnionSet[i] = set1[i];
-    }
-    for(int i = c1 ; i < (c1+c2) ; ++i){
-        UnionSet[i] = set2[i-c1];
-    }
-    int c = c1+c2;
-    prepare_set(UnionSet , c );
-    print_set(UnionSet , c );
+void proper_subset(int set1[], int set2[], int c1, int c2, int sub) {
+	int counter = 0;
+	for (int i = 0; i < c1; ++i) {
+		for (int j = 0; j < c2; ++j) {
+			if (set1[i] != set2[j]) {
+				++counter;
+			}
+			else if (set1[i] == set2[j])
+				break;
+		}
+		if (counter == c2) {
+			sub = 0;
+			break;
+		}
+	}
+	if (sub == 1)
+		cout << "the First Set is Proper subset from the Second Set" << endl;
+	else if (sub == 2)
+		cout << "the Second Set is Proper subset from the First Set" << endl;
+	else if (sub == 0)
+		cout << "No Proper Subset!" << endl;
+}
+
+void proper_subset_assist(int set1[], int set2[], int c1, int c2) {
+	int sub = 0;
+	if (c1 == c2)
+		cout << "No Proper Subset" << endl;
+	else if (c1 < c2) {
+		sub = 1;
+		proper_subset(set1, set2, c1, c2, sub);
+	}
+	else {
+		sub = 2;
+		proper_subset(set2, set1, c2, c1, sub);
+	}
+}
+/*--------------------------------------------------------------------------------------
+	Ahmed Dardery
+	* Union of A, B					(A U B)
+	* Intersection of A, B			(A ∩ B)
+	* Difference between A and B	(A - B)
+--------------------------------------------------------------------------------------*/
+void set_union(int set1[], int set2[], int c1, int c2) {
+	int unionSet[c_setSize];
+	int c = 0;
+	int i = 0, j = 0;
+	while (i < c1 && j < c2) {
+		if (set1[i] < set2[j])
+			unionSet[c++] = set1[i++];
+
+		else if (set1[i] > set2[j])
+			unionSet[c++] = set2[j++];
+		
+		else{
+			unionSet[c++] = set1[i];
+			++i, ++j;
+		}
+	}
+	for (; i < c1; ++i) unionSet[c++] = set1[i];
+	for (; j < c2; ++j) unionSet[c++] = set2[j];
+	print_set(unionSet, c);
+}
+
+void set_intersection(int set1[], int set2[], int c1, int c2) {
+	int intersectionSet[c_setSize];
+	int c = 0;
+	int i = 0, j = 0;
+	while (i < c1 && j < c2) {
+		if (set1[i] < set2[j])
+			++i;
+		else if (set1[i] > set2[j])
+			++j;
+		else {
+			intersectionSet[c++] = set1[i];
+			++i, ++j;
+		}
+	}
+	print_set(intersectionSet, c);
+}
+
+void set_difference(int set1[], int set2[], int c1, int c2) {
+	int diffSet[c_setSize];
+	int c = 0;
+	int i = 0, j = 0;
+	while (i < c1 && j < c2) {
+		if (set1[i] < set2[j])
+			diffSet[c++] = set1[i++];
+		else if (set1[i] > set2[j])
+			++j;
+		else
+			++i, ++j;
+	}
+	for (; i < c1; ++i) diffSet[c++] = set1[i];
+	print_set(diffSet, c);
 }
