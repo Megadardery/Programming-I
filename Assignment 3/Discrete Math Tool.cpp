@@ -12,6 +12,7 @@ void Disjoint(int[] , int[] , int , int);
 void Set_equality(int[] , int[] , int , int);
 void proper_subset(int[] , int[] , int , int , int);
 void proper_subset_assist(int [] , int [] , int , int);
+void Set_union(int set1[] , int set2[] , int c1 , int c2);
 
 int main()
 {
@@ -24,6 +25,7 @@ int main()
         cout << "\n1 >> Create File" << endl;
         cout << "2 >> Load File" << endl;
         cout << "3 >> Display data sets" << endl;
+        cout << "4 >> Union" << endl;
         cout << "10 >> Check if A and B are disjoint" << endl;
         cout << "11 >> Check if A and B are equal" << endl;
         cout << "12 >> Check if a set is a proper subset of other" << endl;
@@ -50,10 +52,13 @@ int main()
                 break;
             case 3 :
                 print_set(set1 , c1);
-                print_set(set1 , c2);
+                print_set(set2 , c2);
+                break;
+            case 4 :
+                Set_union(set1 , set2 , c1 , c2);
                 break;
             case 10 :
-                Disjoint(set1 , set2 , c1 ,c2);
+                Disjoint(set1 , set2 , c1 , c2);
                 break;
             case 11 :
                 Set_equality(set1 , set2 , c1 , c2);
@@ -218,7 +223,7 @@ void proper_subset(int set1[] , int set2[] , int c1 , int c2 , int sub ){
 void proper_subset_assist(int set1[] , int set2[] , int c1 , int c2){
     int sub = 0;
     if(c1 == c2)
-        cout << "No Subset" << endl;
+        cout << "No Proper Subset" << endl;
     else if (c1 < c2){
         sub = 1;
         proper_subset(set1 , set2 , c1 ,c2 , sub);
@@ -227,4 +232,17 @@ void proper_subset_assist(int set1[] , int set2[] , int c1 , int c2){
         sub = 2;
         proper_subset(set2 , set1 , c2 , c1 , sub);
     }
+}
+
+void Set_union(int set1[] , int set2[] , int c1 , int c2){
+    int UnionSet[10000] ;
+    for(int i = 0 ; i < c1 ; ++i){
+        UnionSet[i] = set1[i];
+    }
+    for(int i = c1 ; i < (c1+c2) ; ++i){
+        UnionSet[i] = set2[i-c1];
+    }
+    int c = c1+c2;
+    prepare_set(UnionSet , c );
+    print_set(UnionSet , c );
 }
