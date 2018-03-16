@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <fstream>
 
 using namespace std;
@@ -42,6 +42,7 @@ int main()
 		cout << "4 >> Union of A and B" << endl;
 		cout << "5 >> Intersection of A and B" << endl;
 		cout << "6 >> Difference between A and B (A - B)" << endl;
+		cout << "7 >> Difference between B and A (B - A)" << endl;
 		cout << "10 >> Check if A and B are disjoint" << endl;
 		cout << "11 >> Check if A and B are equal" << endl;
 		cout << "12 >> Check if a set is a proper subset of other" << endl;
@@ -54,7 +55,7 @@ int main()
 			cout << "Which set do you want to modify (1-2): ";
 			k = get_number(1, 2) - 1;
 			get_set(set[k], c[k]);
-			
+			create_file(set[k], c[k]);
 			break;
 		case 2:  // >> Load data set from file
 			cout << "Which set do you want to modify (1-2): ";
@@ -76,6 +77,9 @@ int main()
 			break;
 		case 6:  // >> Difference between A and B (A - B)
 			set_difference(set[0], set[1], c[0], c[1]);
+			break;
+		case 7:  // >> Difference between B and A (B - A)
+			set_difference(set[1], set[0], c[1], c[0]);
 			break;
 		case 10: // >> Check if A and B are disjoint
 			set_disjoint(set[0], set[1], c[0], c[1]);
@@ -199,6 +203,74 @@ void print_set(const int set[], int c) {
 }
 
 /*--------------------------------------------------------------------------------------
+	Ahmed Dardery
+	* Union of A, B					(A U B)
+	* Intersection of A, B			(A ∩ B)
+	* Difference between A and B	(A - B)
+--------------------------------------------------------------------------------------*/
+void set_union(int set1[], int set2[], int c1, int c2) {
+	int unionSet[c_setSize];
+	int c = 0;
+	int i = 0, j = 0;
+	while (i < c1 && j < c2) {
+		if (set1[i] < set2[j])
+			unionSet[c++] = set1[i++];
+
+		else if (set1[i] > set2[j])
+			unionSet[c++] = set2[j++];
+		
+		else{
+			unionSet[c++] = set1[i];
+			++i, ++j;
+		}
+	}
+	for (; i < c1; ++i) unionSet[c++] = set1[i];
+	for (; j < c2; ++j) unionSet[c++] = set2[j];
+	print_set(unionSet, c);
+}
+
+void set_intersection(int set1[], int set2[], int c1, int c2) {
+	int intersectionSet[c_setSize];
+	int c = 0;
+	int i = 0, j = 0;
+	while (i < c1 && j < c2) {
+		if (set1[i] < set2[j])
+			++i;
+		else if (set1[i] > set2[j])
+			++j;
+		else {
+			intersectionSet[c++] = set1[i];
+			++i, ++j;
+		}
+	}
+	print_set(intersectionSet, c);
+}
+
+void set_difference(int set1[], int set2[], int c1, int c2) {
+	int diffSet[c_setSize];
+	int c = 0;
+	int i = 0, j = 0;
+	while (i < c1 && j < c2) {
+		if (set1[i] < set2[j])
+			diffSet[c++] = set1[i++];
+		else if (set1[i] > set2[j])
+			++j;
+		else
+			++i, ++j;
+	}
+	for (; i < c1; ++i) diffSet[c++] = set1[i];
+	print_set(diffSet, c);
+}
+
+/*--------------------------------------------------------------------------------------
+	Belal Hamdy
+	* Difference between B and A		(B - A)
+	* Cartesian product of A and B
+	* Power set of A
+--------------------------------------------------------------------------------------*/
+
+
+/*--------------------------------------------------------------------------------------
 	Adham Mamdouh
 	* Check if A and B are disjoint					(A ∩ B = {})
 	* Check if A and B are equal					(A = B)
@@ -272,63 +344,4 @@ void proper_subset_assist(int set1[], int set2[], int c1, int c2) {
 		sub = 2;
 		proper_subset(set2, set1, c2, c1, sub);
 	}
-}
-/*--------------------------------------------------------------------------------------
-	Ahmed Dardery
-	* Union of A, B					(A U B)
-	* Intersection of A, B			(A ∩ B)
-	* Difference between A and B	(A - B)
---------------------------------------------------------------------------------------*/
-void set_union(int set1[], int set2[], int c1, int c2) {
-	int unionSet[c_setSize];
-	int c = 0;
-	int i = 0, j = 0;
-	while (i < c1 && j < c2) {
-		if (set1[i] < set2[j])
-			unionSet[c++] = set1[i++];
-
-		else if (set1[i] > set2[j])
-			unionSet[c++] = set2[j++];
-		
-		else{
-			unionSet[c++] = set1[i];
-			++i, ++j;
-		}
-	}
-	for (; i < c1; ++i) unionSet[c++] = set1[i];
-	for (; j < c2; ++j) unionSet[c++] = set2[j];
-	print_set(unionSet, c);
-}
-
-void set_intersection(int set1[], int set2[], int c1, int c2) {
-	int intersectionSet[c_setSize];
-	int c = 0;
-	int i = 0, j = 0;
-	while (i < c1 && j < c2) {
-		if (set1[i] < set2[j])
-			++i;
-		else if (set1[i] > set2[j])
-			++j;
-		else {
-			intersectionSet[c++] = set1[i];
-			++i, ++j;
-		}
-	}
-	print_set(intersectionSet, c);
-}
-
-void set_difference(int set1[], int set2[], int c1, int c2) {
-	int diffSet[c_setSize];
-	int c = 0;
-	int i = 0, j = 0;
-	while (i < c1 && j < c2) {
-		if (set1[i] < set2[j])
-			diffSet[c++] = set1[i++];
-		else if (set1[i] > set2[j])
-			++j;
-		else
-			++i, ++j;
-	}
-	for (; i < c1; ++i) diffSet[c++] = set1[i];
-	print_set(diffSet, c);
 }
