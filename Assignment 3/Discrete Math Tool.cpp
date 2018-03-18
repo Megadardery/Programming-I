@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <fstream>
 
 using namespace std;
@@ -8,20 +8,23 @@ const int c_setSize = 10000;
 int get_number(int, int);
 
 void get_set(int[], int&);
-void load_file(int[], int&); 
+void load_file(int[], int&);
 void prepare_set(int[], int&);
 void create_file(int[], int);
 
 void print_set(const int[], int);
 
+void set_union(int[], int[], int, int);
+void set_intersection(int[], int[], int, int);
+void set_difference(int[], int[], int, int);
+
+void cartesian(int[], int[], int, int);
+void power_set(int[], int);
+
 void set_disjoint(int[], int[], int, int);
 void set_equality(int[], int[], int, int);
 void proper_subset(int[], int[], int, int, int);
 void proper_subset_assist(int[], int[], int, int);
-
-void set_union(int[], int[], int, int);
-void set_intersection(int[], int[], int, int);
-void set_difference(int[], int[], int, int);
 
 int main()
 {
@@ -31,7 +34,7 @@ int main()
 	//to access set A use 'set[0]'. To access set B, use 'set[1]'
 	int set[2][c_setSize];
 	//to access size of set A use 'c[0]'. To access size of set B, use 'c[1]'
-	int c[2] = {0, 0};
+	int c[2] = { 0, 0 };
 
 	cout << "Ahlan ya user ya Habibi" << endl;
 	cout << "what do you want to do today" << endl;
@@ -43,6 +46,8 @@ int main()
 		cout << "5 >> Intersection of A and B" << endl;
 		cout << "6 >> Difference between A and B (A - B)" << endl;
 		cout << "7 >> Difference between B and A (B - A)" << endl;
+		cout << "8 >> Cartesian product of A and B" << endl;
+		cout << "9 >> Power set of A" << endl;
 		cout << "10 >> Check if A and B are disjoint" << endl;
 		cout << "11 >> Check if A and B are equal" << endl;
 		cout << "12 >> Check if a set is a proper subset of other" << endl;
@@ -61,7 +66,7 @@ int main()
 			cout << "Which set do you want to modify (1-2): ";
 			k = get_number(1, 2) - 1;
 			load_file(set[k], c[k]);
-			
+
 			break;
 		case 3:  // >> Display current data set
 			cout << "Set A:\n";
@@ -80,6 +85,12 @@ int main()
 			break;
 		case 7:  // >> Difference between B and A (B - A)
 			set_difference(set[1], set[0], c[1], c[0]);
+			break;
+		case 8: // >> Cartesian product of A and B
+			cartesian(set[0], set[1], c[0], c[1]);
+			break;
+		case 9: // >> Power set of A
+			power_set(set[0], c[0]);
 			break;
 		case 10: // >> Check if A and B are disjoint
 			set_disjoint(set[0], set[1], c[0], c[1]);
@@ -169,7 +180,7 @@ void prepare_set(int set[], int& c) {
 
 		int temp = set[i];
 		set[i] = set[min];
-		set[min] = temp;			//swap
+		set[min] = temp;            //swap
 	}
 }
 
@@ -204,9 +215,9 @@ void print_set(const int set[], int c) {
 
 /*--------------------------------------------------------------------------------------
 	Ahmed Dardery
-	* Union of A, B					(A U B)
-	* Intersection of A, B			(A ∩ B)
-	* Difference between A and B	(A - B)
+	* Union of A, B                 (A U B)
+	* Intersection of A, B          (A ∩ B)
+	* Difference between A and B    (A - B)
 --------------------------------------------------------------------------------------*/
 void set_union(int set1[], int set2[], int c1, int c2) {
 	int unionSet[c_setSize];
@@ -218,8 +229,8 @@ void set_union(int set1[], int set2[], int c1, int c2) {
 
 		else if (set1[i] > set2[j])
 			unionSet[c++] = set2[j++];
-		
-		else{
+
+		else {
 			unionSet[c++] = set1[i];
 			++i, ++j;
 		}
@@ -264,17 +275,57 @@ void set_difference(int set1[], int set2[], int c1, int c2) {
 
 /*--------------------------------------------------------------------------------------
 	Belal Hamdy
-	* Difference between B and A		(B - A)
+	* Difference between B and A        (B - A)
 	* Cartesian product of A and B
 	* Power set of A
 --------------------------------------------------------------------------------------*/
 
+void cartesian(int set1[], int set2[], int siz1, int siz2)
+{
+	cout << "{ ";
+	for (int i = 0; i<siz1; ++i)
+	{
+		for (int j = 0; j<siz2; ++j)
+		{
+			cout << "( " << set1[i] << " , " << set2[j] << " )";
+		}
+	}
+	cout << " }";
+
+}
+void power_set(int set[], int siz)
+{
+	int test, print_count = 0;
+	if (siz>21) cout << "The power set will exceed 8 million sets!!\n";
+	else
+	{
+		cout << "{ ";
+		for (int i = 0; i<(1 << siz); i++)
+		{
+			test = i;
+			print_count = 0;
+			cout << "( ";
+			for (int j = 0; test != 0; j++)
+			{
+				if (test & 1 && !print_count) {
+					cout << set[j] << " ";
+					print_count++;
+				}
+				else if (test & 1) cout << " , " << set[j] << " ";
+				test = (test << 1);
+			}
+			cout << ")";
+		}
+		cout << " }";
+	}
+}
+
 
 /*--------------------------------------------------------------------------------------
 	Adham Mamdouh
-	* Check if A and B are disjoint					(A ∩ B = {})
-	* Check if A and B are equal					(A = B)
-	* Check if a set is a proper subset of other	(A ⊂ B or B ⊂ A)
+	* Check if A and B are disjoint                 (A ∩ B = {})
+	* Check if A and B are equal                    (A = B)
+	* Check if a set is a proper subset of other    (A ⊂ B or B ⊂ A)
 --------------------------------------------------------------------------------------*/
 void set_disjoint(int set1[], int set2[], int c1, int c2) {
 	int found = 0;
