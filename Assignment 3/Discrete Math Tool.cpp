@@ -86,10 +86,10 @@ int main()
 		case 7:  // >> Difference between B and A (B - A)
 			set_difference(set[1], set[0], c[1], c[0]);
 			break;
-		case 8: // >> Cartesian product of A and B
+		case 8:
 			cartesian(set[0], set[1], c[0], c[1]);
 			break;
-		case 9: // >> Power set of A
+		case 9:
 			power_set(set[0], c[0]);
 			break;
 		case 10: // >> Check if A and B are disjoint
@@ -214,10 +214,10 @@ void print_set(const int set[], int c) {
 }
 
 /*--------------------------------------------------------------------------------------
-	Ahmed Dardery
-	* Union of A, B                 (A U B)
-	* Intersection of A, B          (A ∩ B)
-	* Difference between A and B    (A - B)
+Ahmed Dardery
+* Union of A, B                 (A U B)
+* Intersection of A, B          (A ∩ B)
+* Difference between A and B    (A - B)
 --------------------------------------------------------------------------------------*/
 void set_union(int set1[], int set2[], int c1, int c2) {
 	int unionSet[c_setSize];
@@ -274,58 +274,64 @@ void set_difference(int set1[], int set2[], int c1, int c2) {
 }
 
 /*--------------------------------------------------------------------------------------
-	Belal Hamdy
-	* Difference between B and A        (B - A)
-	* Cartesian product of A and B
-	* Power set of A
+Belal Hamdy
+* Difference between B and A        (B - A)
+* Cartesian product of A and B
+* Power set of A
 --------------------------------------------------------------------------------------*/
 
 void cartesian(int set1[], int set2[], int siz1, int siz2)
 {
-	cout << "{ ";
+	cout << '{';
 	for (int i = 0; i<siz1; ++i)
 	{
 		for (int j = 0; j<siz2; ++j)
 		{
-			cout << "( " << set1[i] << " , " << set2[j] << " )";
+			cout << '(' << set1[i] << ", " << set2[j] << ')';
+			if (i < siz1 - 1 || j < siz2 - 1)
+				cout << ", ";
 		}
 	}
-	cout << " }";
+	cout << '}';
 
 }
 void power_set(int set[], int siz)
 {
-	int test, print_count = 0;
-	if (siz>21) cout << "The power set will exceed 8 million sets!!\n";
+	int pattern;
+	if (siz >= 21)
+		cout << "The power set will exceed million sets!!\n";
 	else
 	{
-		cout << "{ ";
-		for (int i = 0; i<(1 << siz); i++)
+		cout << '{';
+		int totalCount = 1 << siz;
+		for (int i = 0; i < totalCount; i++)
 		{
-			test = i;
-			print_count = 0;
-			cout << "( ";
-			for (int j = 0; test != 0; j++)
+			pattern = i;
+			cout << '{';
+			for (int j = 0; pattern != 0 ; j++)
 			{
-				if (test & 1 && !print_count) {
-					cout << set[j] << " ";
-					print_count++;
+				if (pattern & 1) {
+					cout << set[j];
+					if (pattern != 1)
+						cout << ", ";
 				}
-				else if (test & 1) cout << " , " << set[j] << " ";
-				test = (test << 1);
+				pattern >>= 1;
+
 			}
-			cout << ")";
+			cout << '}';
+			if (i < totalCount - 1)
+				cout << ", ";
 		}
-		cout << " }";
+		cout << '}';
 	}
 }
 
 
 /*--------------------------------------------------------------------------------------
-	Adham Mamdouh
-	* Check if A and B are disjoint                 (A ∩ B = {})
-	* Check if A and B are equal                    (A = B)
-	* Check if a set is a proper subset of other    (A ⊂ B or B ⊂ A)
+Adham Mamdouh
+* Check if A and B are disjoint                 (A ∩ B = {})
+* Check if A and B are equal                    (A = B)
+* Check if a set is a proper subset of other    (A ⊂ B or B ⊂ A)
 --------------------------------------------------------------------------------------*/
 void set_disjoint(int set1[], int set2[], int c1, int c2) {
 	int found = 0;
