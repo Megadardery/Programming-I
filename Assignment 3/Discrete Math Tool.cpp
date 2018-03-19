@@ -380,6 +380,7 @@ void proper_subset(int set1[], int set2[], int c1, int c2, int sub) {
 			sub = 0;
 			break;
 		}
+		counter = 0;
 	}
 	if (sub == 1)
 		cout << "the First Set is Proper subset from the Second Set" << endl;
