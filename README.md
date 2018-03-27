@@ -1,7 +1,7 @@
 # Programming-I
 ## Assignment 1
 
-- [x] Group work and collaboration
+ - [x] Group work and collaboration
 
 - Ahmed Nasr Eldardery Ibrahim | 20170034
   - [x] Created a github account.
@@ -26,9 +26,9 @@
 
 ## Assignment 2
 
-- [x] Correct implementation of the group problem (chap 3, page 176, problem 7)
-- [x] Done a cipher program that implements all ten algorithms.
-- [x] Group collaboration and following coding style.
+ - [x] Correct implementation of the group problem (chap 3, page 176, problem 7)
+ - [x] Done a cipher program that implements all ten algorithms.
+ - [x] Group collaboration and following coding style.
 
 
 - Ahmed Nasr Eldardery Ibrahim | 20170034
@@ -48,14 +48,14 @@
   
 ## Assignment 3
 
-- [x] Allow users to enter data sets and store each one in a separate file.
-- [ ] Handled empty, invalid and wrong data-type files.
-- [ ] Extend the program to work with 3 sets for all the given functions.
-- [ ] Created the function decomposition diagram.
+ - [x] Allow users to enter data sets and store each one in a separate file.
+ - [ ] Handled empty, invalid and wrong data-type files.
+ - [ ] Extend the program to work with 3 sets for all the given functions.
+ - [ ] Created the function decomposition diagram.
 
 - Ahmed Nasr Eldardery Ibrahim | 20170034
   - [x] used Solo Learn app and finished up to functions
-  - [ ] Posted a question and answered one on stackoverflow.com
+  - [x] Posted a question and answered one on stackoverflow.com
   - Individual tasks
     - [x] Union of A, B
     - [x] Intersection of A, B
@@ -70,9 +70,9 @@
     - [x] Check if a set is a proper subset of other
 
 - Belal Hamdy Ezzat | 20170077
-  - [ ] used Solo Learn app and finished up to functions
-  - [ ] Posted a question and answered one on stackoverflow.com
+  - [x] used Solo Learn app and finished up to functions
+  - [x] Posted a question and answered one on stackoverflow.com
   - Individual tasks
-    - [ ] B - A
-    - [ ] Cartesian product of A and B
-    - [ ] Power set of A
+    - [x] B - A
+    - [x] Cartesian product of A and B
+    - [x] Power set of A
