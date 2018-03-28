@@ -18,7 +18,7 @@ void set_union(int[], int[], int[], int, int, int);
 void set_intersection(int[], int[], int[], int, int, int);
 void set_difference(int[], int[], int, int);
 
-void cartesian(int[], int[], int, int);
+void cartesian(int[], int[] ,int[],int, int, int);
 void power_set(int[], int);
 
 void set_disjoint(int[], int[], int[], int, int, int);
@@ -76,7 +76,7 @@ int main()
 			print_set(set[0], c[0]);
 			cout << "Set B:\n";
 			print_set(set[1], c[1]);
-			cout << "Ser C:\n";
+			cout << "Set C:\n";
 			print_set(set[2], c[2]);
 			break;
 		case 4:  // >> Union of A, B and C
@@ -92,7 +92,7 @@ int main()
 			set_difference(set[1], set[0], c[1], c[0]);
 			break;
 		case 8:
-			cartesian(set[0], set[1], c[0], c[1]);
+			cartesian(set[0], set[1] , set[2], c[0], c[1] , c[2]);
 			break;
 		case 9:
 			power_set(set[0], c[0]);
@@ -228,29 +228,35 @@ void set_union(int set1[], int set2[], int set3[], int c1, int c2, int c3) {
 	int unionSet[c_setSize];
 	int c = 0;
 	int i = 0, j = 0, k = 0;
-	
 
+    set1[c1] = INT_MAX;
+    set2[c2] = INT_MAX;
+    set3[c3] = INT_MAX;
 	while (i < c1 || j < c2 || k < c3) {
-		int minimum = min (set1 [i], set2 [j], set3 [k]);
-		
-	
+		int minimum = min(min (set1 [i], set2 [j]), set3 [k]);
+        if (set1[i] == minimum) ++i;
+        if (set2[j] == minimum) ++j;
+        if (set3[k] == minimum) ++k;
+        unionSet[c++] = minimum;
 	}
 	print_set(unionSet, c);
 }
 
-void set_intersection(int set1[], int set2[], int c1, int c2) {
+void set_intersection(int set1[], int set2[], int set3[], int c1, int c2, int c3) {
 	int intersectionSet[c_setSize];
 	int c = 0;
-	int i = 0, j = 0;
-	while (i < c1 && j < c2) {
-		if (set1[i] < set2[j])
-			++i;
-		else if (set1[i] > set2[j])
-			++j;
-		else {
-			intersectionSet[c++] = set1[i];
-			++i, ++j;
-		}
+	int i = 0, j = 0, k = 0;
+
+    set1[c1] = INT_MAX;
+    set2[c2] = INT_MAX;
+    set3[c3] = INT_MAX;
+	while (i < c1 || j < c2 || k < c3) {
+		int minimum = min(min (set1 [i], set2 [j]), set3 [k]);
+		if (set1[i] == set2[j] && set2[j] == set3[k]) intersectionSet[c++] = minimum;
+        if (set1[i] == minimum) ++i;
+        if (set2[j] == minimum) ++j;
+        if (set3[k] == minimum) ++k;
+
 	}
 	print_set(intersectionSet, c);
 }
@@ -278,16 +284,20 @@ Belal Hamdy
 * Power set of A
 --------------------------------------------------------------------------------------*/
 
-void cartesian(int set1[], int set2[], int siz1, int siz2)
+void cartesian(int set1[], int set2[] , int set3[], int siz1, int siz2 , int siz3)
 {
 	cout << '{';
 	for (int i = 0; i<siz1; ++i)
 	{
 		for (int j = 0; j<siz2; ++j)
 		{
-			cout << '(' << set1[i] << ", " << set2[j] << ')';
-			if (i < siz1 - 1 || j < siz2 - 1)
+		    for (int k = 0 ; k<siz3 ; ++k)
+            {
+
+			cout << '(' << set1[i] << ", " << set2[j] <<", " <<set3[k]<< ')';
+			if (i < siz1 - 1 || j < siz2 - 1 || k<siz3-1)
 				cout << ", ";
+            }
 		}
 	}
 	cout << '}';
