@@ -14,8 +14,8 @@ void create_file(int[], int);
 
 void print_set(const int[], int);
 
-void set_union(int[], int[], int, int);
-void set_intersection(int[], int[], int, int);
+void set_union(int[], int[], int[], int, int, int);
+void set_intersection(int[], int[], int[], int, int, int);
 void set_difference(int[], int[], int, int);
 
 void cartesian(int[], int[], int, int);
@@ -45,8 +45,8 @@ int main()
 		cout << "\n1 >> Enter a new data set" << endl;
 		cout << "2 >> Load data set from file" << endl;
 		cout << "3 >> Display current data set" << endl;
-		cout << "4 >> Union of A and B" << endl;
-		cout << "5 >> Intersection of A and B" << endl;
+		cout << "4 >> Union of A, B and C" << endl;
+		cout << "5 >> Intersection of A, B and C" << endl;
 		cout << "6 >> Difference between A and B (A - B)" << endl;
 		cout << "7 >> Difference between B and A (B - A)" << endl;
 		cout << "8 >> Cartesian product of A and B" << endl;
@@ -79,11 +79,11 @@ int main()
 			cout << "Ser C:\n";
 			print_set(set[2], c[2]);
 			break;
-		case 4:  // >> Union of A and B
-			set_union(set[0], set[1], c[0], c[1]);
+		case 4:  // >> Union of A, B and C
+			set_union(set[0], set[1], set [2], c[0], c[1], c [2]);
 			break;
-		case 5:  // >> Intersection of A and B
-			set_intersection(set[0], set[1], c[0], c[1]);
+		case 5:  // >> Intersection of A, B and C
+			set_intersection(set[0], set[1], set [2], c[0], c[1], c [2]);
 			break;
 		case 6:  // >> Difference between A and B (A - B)
 			set_difference(set[0], set[1], c[0], c[1]);
@@ -224,24 +224,17 @@ Ahmed Dardery
 * Intersection of A, B          (A ∩ B)
 * Difference between A and B    (A - B)
 --------------------------------------------------------------------------------------*/
-void set_union(int set1[], int set2[], int c1, int c2) {
+void set_union(int set1[], int set2[], int set3[], int c1, int c2, int c3) {
 	int unionSet[c_setSize];
 	int c = 0;
-	int i = 0, j = 0;
-	while (i < c1 && j < c2) {
-		if (set1[i] < set2[j])
-			unionSet[c++] = set1[i++];
+	int i = 0, j = 0, k = 0;
+	
 
-		else if (set1[i] > set2[j])
-			unionSet[c++] = set2[j++];
-
-		else {
-			unionSet[c++] = set1[i];
-			++i, ++j;
-		}
+	while (i < c1 || j < c2 || k < c3) {
+		int minimum = min (set1 [i], set2 [j], set3 [k]);
+		
+	
 	}
-	for (; i < c1; ++i) unionSet[c++] = set1[i];
-	for (; j < c2; ++j) unionSet[c++] = set2[j];
 	print_set(unionSet, c);
 }
 
