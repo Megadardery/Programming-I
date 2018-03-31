@@ -1,3 +1,16 @@
+/*
+// Program: Bonus.cpp
+// Purpose: Gets 3 sets from user (either as input or from file)
+            and does various operations on them
+//
+// Authors: Ahmed Nasr Eldardery    (20170034)
+//          Adham Mamdouh Mohamed   (20170039)
+            Belal Hamdy Ezzat       (20170077)
+
+// Date:    1 April 2018
+// Version: 1.0
+*/
+
 #include <iostream>
 #include <fstream>
 

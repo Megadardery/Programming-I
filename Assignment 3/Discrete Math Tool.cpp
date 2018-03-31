@@ -1,3 +1,16 @@
+/*
+// Program: Discrete Math Tool.cpp
+// Purpose: Gets 2 sets from user (either as input or from file)
+            and does various operations on them
+//
+// Authors: Ahmed Nasr Eldardery    (20170034)
+//          Adham Mamdouh Mohamed   (20170039)
+            Belal Hamdy Ezzat       (20170077)
+
+// Date:    1 April 2018
+// Version: 1.0
+*/
+
 #include <iostream>
 #include <fstream>
 
@@ -151,8 +164,8 @@ void load_file(int set[], int& c) {
 		char path[100];
 		cout << "Enter the path of the file to load: ";
 		cin.getline(path, 100, '\n');
-		if (!path[0]) { 
-			cout << "Operation cancelled!\n"; 
+		if (!path[0]) {
+			cout << "Operation cancelled!\n";
 			return;
 		}
 		file.open(path);
@@ -176,7 +189,7 @@ void load_file(int set[], int& c) {
 		else
 			break;
 	}
-	
+
 	file.close();
 	prepare_set(set, c);
 	cout << "File loaded successfully! ^_^" << endl;
