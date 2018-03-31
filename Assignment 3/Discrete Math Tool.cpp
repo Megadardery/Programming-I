@@ -60,7 +60,7 @@ int main()
 			cout << "Which set do you want to modify (1-2): ";
 			k = get_number(1, 2) - 1;
 			get_set(set[k], c[k]);
-			create_file(set[k], c[k]);
+			if (c[k] > 0) create_file(set[k], c[k]);
 			break;
 		case 2:  // >> Load data set from file
 			cout << "Which set do you want to modify (1-2): ";
@@ -86,10 +86,10 @@ int main()
 		case 7:  // >> Difference between B and A (B - A)
 			set_difference(set[1], set[0], c[1], c[0]);
 			break;
-		case 8:
+		case 8: // >> Cartesian product of A and B
 			cartesian(set[0], set[1], c[0], c[1]);
 			break;
-		case 9:
+		case 9: // >> Power set of A
 			power_set(set[0], c[0]);
 			break;
 		case 10: // >> Check if A and B are disjoint
@@ -130,9 +130,16 @@ int get_number(int begin, int end) {
 void get_set(int set[], int &c) {
 	cout << "Enter the data set (seperate numbers by spaces, press Enter after you are done):" << endl;
 	c = 0;
-	while (true) {
+	while (c < c_setSize) {
 		cin >> set[c++];
-		if (cin.get() == '\n' || c == c_setSize)
+		if (cin.fail()) {
+			cin.clear();
+			cin.ignore(INT_MAX, '\n');
+			c = 0;
+			cout << "Invalid number encountered! Operation failed." << endl;
+			return;
+		}
+		if (cin.get() == '\n' || cin.peek() == '\n' && cin.get())
 			break;
 	}
 	prepare_set(set, c);
@@ -144,6 +151,10 @@ void load_file(int set[], int& c) {
 		char path[100];
 		cout << "Enter the path of the file to load: ";
 		cin.getline(path, 100, '\n');
+		if (!path[0]) { 
+			cout << "Operation cancelled!\n"; 
+			return;
+		}
 		file.open(path);
 		if (!file)
 			cout << "Couldn't access the file.\n";
@@ -153,9 +164,20 @@ void load_file(int set[], int& c) {
 
 	int current;
 	c = 0;
-	while (file >> current && !file.eof() && c < c_setSize) {
-		set[c++] = current;
+	while (c < c_setSize) {
+		if (file >> current)
+			set[c++] = current;
+		else if (!file.eof()) {
+			c = 0;
+			file.close();
+			cout << "Invalid number encountered! Operation failed.";
+			return;
+		}
+		else
+			break;
 	}
+	
+	file.close();
 	prepare_set(set, c);
 	cout << "File loaded successfully! ^_^" << endl;
 }
@@ -190,6 +212,10 @@ void create_file(int set[], int c) {
 		char path[100];
 		cout << "Enter the path of the file to save: ";
 		cin.getline(path, 100, '\n');
+		if (!path[0]) {
+			cout << "Operation cancelled!\n";
+			return;
+		}
 		file.open(path);
 		if (!file)
 			cout << "Couldn't access the file.\n";
@@ -200,6 +226,7 @@ void create_file(int set[], int c) {
 	for (int i = 0; i < c; ++i) {
 		file << set[i] << " ";
 	}
+	file.close();
 	cout << "File created successfully! ^_^" << endl;
 }
 
@@ -280,35 +307,35 @@ Belal Hamdy
 * Power set of A
 --------------------------------------------------------------------------------------*/
 
-void cartesian(int set1[], int set2[], int siz1, int siz2)
+void cartesian(int set1[], int set2[], int c1, int c2)
 {
 	cout << '{';
-	for (int i = 0; i<siz1; ++i)
+	for (int i = 0; i<c1; ++i)
 	{
-		for (int j = 0; j<siz2; ++j)
+		for (int j = 0; j<c2; ++j)
 		{
 			cout << '(' << set1[i] << ", " << set2[j] << ')';
-			if (i < siz1 - 1 || j < siz2 - 1)
+			if (i < c1 - 1 || j < c2 - 1)
 				cout << ", ";
 		}
 	}
 	cout << '}';
 
 }
-void power_set(int set[], int siz)
+void power_set(int set[], int c)
 {
 	int pattern;
-	if (siz >= 21)
+	if (c >= 21)
 		cout << "The power set will exceed million sets!!\n";
 	else
 	{
 		cout << '{';
-		int totalCount = 1 << siz;
+		int totalCount = 1 << c;
 		for (int i = 0; i < totalCount; i++)
 		{
 			pattern = i;
 			cout << '{';
-			for (int j = 0; pattern != 0 ; j++)
+			for (int j = 0; pattern != 0; j++)
 			{
 				if (pattern & 1) {
 					cout << set[j];
