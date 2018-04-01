@@ -35,8 +35,7 @@ int main()
 {
     cout << "Ahlan ya user ya habibi :)\n";
 
-    loadImage();
-
+    load_image();
     while (true)
     {
         cout << "Please select a filter to apply or 0 to exit:" << endl <<
@@ -147,24 +146,30 @@ void filter_flip()
 
 void filter_detectedge()
 {
-    for (int i = 0; i < SIZE; ++i)
+    for (int i = 0; i < SIZE - 1; ++i)
     {
         for (int j = 0; j < SIZE - 1; ++j)
         {
-            if (abs(image[i][j][RED] - image[i][j+1][RED] >= 80))
+            if (abs(image[i][j][RED] - image[i][j+1][RED] >= 70) ||
+                abs(image[i][j][RED] - image[i+1][j][RED] >= 70))
                 image[i][j][RED] = 255;
             else
                 image[i][j][RED] = 0;
 
-            if (abs(image[i][j][GREEN] - image[i][j+1][GREEN] >= 80))
+            if (abs(image[i][j][GREEN] - image[i][j+1][GREEN] >= 70) ||
+                abs(image[i][j][GREEN] - image[i+1][j][GREEN] >= 70))
                 image[i][j][GREEN] = 255;
             else
                 image[i][j][GREEN] = 0;
 
-            if (abs(image[i][j][BLUE] - image[i][j+1][BLUE] >= 80))
+             if (abs(image[i][j][BLUE] - image[i][j+1][BLUE] >= 70) ||
+                abs(image[i][j][BLUE] - image[i+1][j][BLUE] >= 70))
                 image[i][j][BLUE] = 255;
             else
                 image[i][j][BLUE] = 0;
+
+            if (image[i][j][RED] == 0 && image[i][j][GREEN] == 0 && image[i][j][BLUE] == 0)
+                image[i][j][BLUE] = image[i][j][GREEN] = image[i][j][RED] = 255;
         }
     }
 }

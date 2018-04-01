@@ -8,3 +8,12 @@
 
 1522526856 d:\programming\c++\assignment 4\include\bmplib.h
 
+1522526823 source:d:\desktop\github\programming-i\assignment 4\src\bmplib.cpp
+	<stdio.h>
+	<iostream>
+	<cstdlib>
+	"bmplib.h"
+	<unistd.h>
+
+1522526856 d:\desktop\github\programming-i\assignment 4\include\bmplib.h
+
