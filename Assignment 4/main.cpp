@@ -26,6 +26,7 @@ unsigned char image[SIZE][SIZE][RGB];
 #define BLUE 2
 
 void filter_flip();
+void filter_invert();
 void filter_blackwhite();
 void filter_detectedge();
 void load_image();
@@ -59,6 +60,7 @@ int main()
             filter_blackwhite();
             break;
         case '2':
+            filter_invert();
             break;
         case '3':
             break;
@@ -109,6 +111,21 @@ void filter_blackwhite()
     }
     cout << "Black White filter applied successfully!" << endl;
 }
+
+void filter_invert(){
+    for (int i = 0; i < SIZE; ++i)
+    {
+        for (int j = 0; j < SIZE; ++j)
+        {
+            image[i][j][RED] = 255 - image[i][j][RED];
+            image[i][j][GREEN] = 255 - image[i][j][GREEN];
+            image[i][j][BLUE] = 255 - image[i][j][BLUE];
+
+        }
+    }
+    cout << "Inverse filter applied successfully!" << endl;
+}
+
 void filter_flip()
 {
     cout << "Flip (h)orizontally or (v)ertically?" << endl;
@@ -146,32 +163,31 @@ void filter_flip()
 
 void filter_detectedge()
 {
+    const unsigned char THRESHOLD = 30;
     for (int i = 0; i < SIZE - 1; ++i)
     {
         for (int j = 0; j < SIZE - 1; ++j)
         {
-            if (abs(image[i][j][RED] - image[i][j+1][RED] >= 70) ||
-                abs(image[i][j][RED] - image[i+1][j][RED] >= 70))
+            if (abs(image[i][j][RED] - image[i][j+1][RED] >= THRESHOLD) ||
+                abs(image[i][j][RED] - image[i+1][j][RED] >= THRESHOLD))
                 image[i][j][RED] = 255;
             else
                 image[i][j][RED] = 0;
 
-            if (abs(image[i][j][GREEN] - image[i][j+1][GREEN] >= 70) ||
-                abs(image[i][j][GREEN] - image[i+1][j][GREEN] >= 70))
+            if (abs(image[i][j][GREEN] - image[i][j+1][GREEN] >= THRESHOLD) ||
+                abs(image[i][j][GREEN] - image[i+1][j][GREEN] >= THRESHOLD))
                 image[i][j][GREEN] = 255;
             else
                 image[i][j][GREEN] = 0;
 
-             if (abs(image[i][j][BLUE] - image[i][j+1][BLUE] >= 70) ||
-                abs(image[i][j][BLUE] - image[i+1][j][BLUE] >= 70))
+             if (abs(image[i][j][BLUE] - image[i][j+1][BLUE] >= THRESHOLD) ||
+                abs(image[i][j][BLUE] - image[i+1][j][BLUE] >= THRESHOLD))
                 image[i][j][BLUE] = 255;
             else
                 image[i][j][BLUE] = 0;
-
-            if (image[i][j][RED] == 0 && image[i][j][GREEN] == 0 && image[i][j][BLUE] == 0)
-                image[i][j][BLUE] = image[i][j][GREEN] = image[i][j][RED] = 255;
         }
     }
+    filter_invert();
 }
 
 void load_image ()
