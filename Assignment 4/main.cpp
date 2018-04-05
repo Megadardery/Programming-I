@@ -79,7 +79,6 @@ int main()
             break;
         case '6':
             rotate_image();
-
             break;
         case '7':
             filter_detectedge();
