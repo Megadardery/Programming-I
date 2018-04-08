@@ -203,7 +203,6 @@ int get_num(int n1, int n2, int n3, int n4 = 0)
 	return num;
 }
 float get_ratio() {
-    cout << "Enter ratio: \n";
 	float ratio;
 	while (true)
 	{
@@ -365,11 +364,15 @@ void filter_darkenlighten() {
 	cin.ignore(INT_MAX, '\n');
 	float ratio;
 	if (response == 'd') {
-		ratio = get_ratio();
+		cout << "Enter the ratio" << endl;
+		cin >> ratio;
+		cin.ignore(INT_MAX, '\n');
 		filter_darkenlighten(-ratio);
 	}
 	else if (response == 'l') {
-		ratio = get_ratio();
+		cout << "Enter the ratio" << endl;
+		cin >> ratio;
+		cin.ignore(INT_MAX, '\n');
 		filter_darkenlighten(ratio);
 	}
 	else {
@@ -474,44 +477,36 @@ void filter_enlarge(int startX, int startY) {
 
 void filter_shrink()
 {
-	float ratio = get_ratio();
+	float ratio;
+	cout << "Enter the ratio" << endl;
+	cin >> ratio;
+	cin.ignore(INT_MAX, '\n');
 	filter_shrink(ratio);
 }
 void filter_shrink(float ratio) {
 	unsigned char shrunkImage[SIZE][SIZE][RGB];
+	memset(shrunkImage, (unsigned char)255, sizeof(unsigned char)*SIZE*SIZE*RGB);
 	int counter = 0, row = 0, col = 0;
-	int small = 1 / (ratio);
-	unsigned int red_sum, blue_sum, green_sum;
-	for (int k = 0; k < SIZE; k += 6) {
-		for (int i = k; i < SIZE; ++i) {
-			if (i % small) {
-				shrunkImage[row][col][RED] = (red_sum / small);
-				shrunkImage[row][col][BLUE] = (blue_sum / small);
-				shrunkImage[row][col][GREEN] = (green_sum / small);
-				++col;
+	int k = 1 / (ratio);
+	int red_sum, blue_sum, green_sum;
+	for (int i = 0; i < SIZE / k; ++i) {
+		for (int j = 0; j < SIZE / k; ++j) {
+            red_sum = 0;
+            blue_sum = 0;
+            green_sum = 0;
+			for(int y = i * k; y < i * k + k; ++y){
+                for(int x = j * k; x < j * k + k; ++x){
+                    red_sum += image[y][x][RED];
+                    blue_sum += image[y][x][BLUE];
+                    green_sum += image[y][x][GREEN];
+                }
 			}
-			for (int j = k; j < (small + k); ++j) {
-				red_sum += image[j][i][RED];
-				blue_sum += image[j][i][BLUE];
-				green_sum += image[j][i][GREEN];
-			}
-		}
-		++row;
-	}
-	for (int i = 0; i < SIZE; ++i) {
-		if (i >= row) {
-			for (int j = 0; j < SIZE; ++j) {
-				shrunkImage[i][j][RED] = 255;
-				shrunkImage[i][j][BLUE] = 255;
-				shrunkImage[i][j][GREEN] = 255;
-			}
-		}
-		for (int j = col; j < SIZE; ++j) {
-			shrunkImage[i][j][RED] = 255;
-			shrunkImage[i][j][BLUE] = 255;
-			shrunkImage[i][j][GREEN] = 255;
+			shrunkImage[i][j][RED] = red_sum / (k*k);
+			shrunkImage[i][j][BLUE] = blue_sum / (k*k);
+			shrunkImage[i][j][GREEN] = green_sum / (k*k);
 		}
 	}
+	cout << red_sum;
 	copy_array(image, shrunkImage);
 }
 
