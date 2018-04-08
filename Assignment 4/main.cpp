@@ -36,7 +36,7 @@ void copy_array(unsigned char[][SIZE], unsigned char[][SIZE][RGB]);
 void copy_array(unsigned char[][SIZE][RGB], unsigned char[][SIZE]);
 
 void swap(unsigned char[], unsigned char[]);
-void swap(unsigned char, unsigned char);
+void swap(unsigned char&, unsigned char&);
 
 
 int clamp(int, int, int);
@@ -159,10 +159,10 @@ void swap(unsigned char x[], unsigned char y[]) {
 	swap(x[GREEN], y[GREEN]);
 	swap(x[BLUE], y[BLUE]);
 }
-void swap(unsigned char x, unsigned char y) {
+void swap(unsigned char& x, unsigned char& y) {
 	unsigned char tmp = x;
-	y = x;
-	x = tmp;
+	x = y;
+	y = tmp;
 }
 
 int clamp(int val, int min, int max) {
@@ -271,25 +271,13 @@ void filter_merge()
 void filter_flip(bool horizontal) {
 	if (horizontal) {
 		for (int i = 0; i < SIZE; ++i)
-		{
 			for (int j = 0; j < SIZE / 2; ++j)
-			{
-				swap(image[i][j][RED], image[i][(SIZE - 1) - j][RED]);
-				swap(image[i][j][GREEN], image[i][(SIZE - 1) - j][GREEN]);
-				swap(image[i][j][BLUE], image[i][(SIZE - 1) - j][BLUE]);
-			}
-		}
+				swap(image[i][j], image[i][(SIZE - 1) - j]);
 	}
 	else {
 		for (int i = 0; i < SIZE / 2; ++i)
-		{
-			for (int j = 0; j < SIZE; ++j)
-			{
-				swap(image[i][j][RED], image[(SIZE - 1) - i][j][RED]);
-				swap(image[i][j][GREEN], image[(SIZE - 1) - i][j][GREEN]);
-				swap(image[i][j][BLUE], image[(SIZE - 1) - i][j][BLUE]);
-			}
-		}
+            for (int j = 0; j < SIZE; ++j)
+				swap(image[i][j], image[(SIZE - 1) - i][j]);
 	}
 }
 
