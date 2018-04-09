@@ -49,10 +49,10 @@
 ## Assignment 3
 
  - [x] Allow users to enter data sets and store each one in a separate file.
- - [ ] Handled empty, invalid and wrong data-type files.
- - [ ] Extend the program to work with 3 sets for all the given functions.
- - [ ] Created the function decomposition diagram.
-
+ - [x] Handled empty, invalid and wrong data-type files.
+ - [x] Extend the program to work with 3 sets for all the given functions.
+ - [x] Created the function decomposition diagram.
+ 
 - Ahmed Nasr Eldardery Ibrahim | 20170034
   - [x] used Solo Learn app and finished up to functions
   - [x] Posted a question and answered one on stackoverflow.com
@@ -62,8 +62,8 @@
     - [x] A - B
 
 - Adham Mamdouh Mohamed | 20170039
-  - [ ] used Solo Learn app and finished up to functions
-  - [ ] Posted a question and answered one on stackoverflow.com
+  - [x] used Solo Learn app and finished up to functions
+  - [x] Posted a question and answered one on stackoverflow.com
   - Individual tasks
     - [x] Check if A and B are disjoint
     - [x] Check if A and B are equal
@@ -76,3 +76,22 @@
     - [x] B - A
     - [x] Cartesian product of A and B
     - [x] Power set of A
+    
+## Assignment 4
+
+ - [x] Integrated work correctly in one full program.
+  
+- Ahmed Nasr Eldardery Ibrahim | 20170034
+  - [x] Finished the Black & White Filter
+  - [x] Finished the Flip Image filter
+  - [x] Finished the Detect Image Edges filter
+
+- Adham Mamdouh Mohamed | 20170039
+  - [x] Finished the Merge Filter
+  - [x] Finished the Darken and Lighten Image filtre
+  - [x] Finished the Shrink Image filter
+  
+- Belal Hamdy Ezzat | 20170077
+  - [x] Finished the Invert Filter
+  - [x] Finished the Rotate Image filter
+  - [x] Finished the Enlarge Image filter
