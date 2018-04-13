@@ -656,20 +656,18 @@ void filter_shuffle(const int order[]) {
 void filter_blur() {
     uint8 blurImage[SIZE][SIZE][RGB];
 	int sum_red = 0 , sum_green = 0 , sum_blue = 0 , counter = 0 ;
-	float ratio = 0.0;
     int start_point = 0 , end_point = 0;
 
-    cout << "Enter a number between (1-15)" << endl;
-    cin >> ratio;
+    cout << "Enter the ratio of the blurring" << endl;
+    cin >> end_point;
     cin.ignore();
 
-    end_point = ((ratio / 100) * 256);
-    start_point = (-1 * (end_point - 1));
+    start_point = (-1 * end_point);
 
     for(int i = 0 ; i < SIZE ; ++i){
         for(int j = 0 ; j < SIZE ; ++j){
-            for(int row = start_point ; row < end_point ; ++row){
-                for(int col = start_point ; col < end_point ; ++col){
+            for(int row = start_point ; row <= end_point ; ++row){
+                for(int col = start_point ; col <= end_point ; ++col){
                     if((i + row > 255) || (i + row < 0) || (j + col > 255) || (j + col < 0))
                         continue;
 
