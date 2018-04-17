@@ -16,7 +16,6 @@
 #include <cmath>
 #include "bmplib.h"
 
-
 using namespace std;
 
 #define SIZE 256
@@ -40,7 +39,8 @@ void swap(uint8&, uint8&);
 
 
 int clamp(const int, const int, const int);
-int get_num(const int, const int, const int, const int);
+int get_num(const int[], const int);
+
 void get_start(int &, int &, const int);
 float get_ratio();
 
@@ -197,7 +197,7 @@ int clamp(const int val, const int min, const int max)
 		return val;
 }
 
-int get_num(const int n1, const int n2, const int n3, const int n4 = 0)
+int get_num(const int allowed[], const int count)
 {
 	int num;
 	while (true)
@@ -209,18 +209,24 @@ int get_num(const int n1, const int n2, const int n3, const int n4 = 0)
 			cin.ignore(INT_MAX, '\n');
 			cout << "Invalid input.\n";
 		}
-		else if (num != n1 && num != n2 && num != n3 && n4 == 0)
-		{
-			cout << "Input out of range (" << n1 << ", " << n2 << ", or " << n3 << " only)\n";
-		}
-		else if (num != n1 && num != n2 && num != n3 && n4 != 0 && num != n4)
-		{
-			cout << "Input out of range (1-4 only)\n";
-		}
-		else
-		{
-			cin.ignore(INT_MAX, '\n');
-			break;
+		else{
+            bool found = false;
+            for (int i = 0; i < count; ++i){
+                if (num == allowed[i]){
+                    found = true;
+                    break;
+                }
+            }
+            if (!found){
+                cout << "Invalid input, only (" << allowed[0];
+                for (int i = 1; i < count; ++i)
+                    cout << ", " << allowed[i];
+                cout << ") are allowed!\n";
+            }
+            else{
+                cin.ignore(INT_MAX, '\n');
+                break;
+            }
 		}
 	}
 	return num;
@@ -349,7 +355,8 @@ void filter_flip()
 void filter_rotate()
 {
 	cout << "Enter rotation degree : ";
-	int degree = get_num(90, 180, 270, 0);
+	const int possible[] = {90,180,270,0};
+	int degree = get_num(possible,4);
 	filter_rotate(degree);
 }
 
@@ -473,7 +480,8 @@ void filter_detectedges()
 void filter_enlarge()
 {
 	cout << "Enter the number of quarter (1-4) : ";
-	int q = get_num(1, 2, 3, 4);
+	const int possible[] = {1, 2, 3, 4};
+	int q = get_num(possible,4);
 	int startX, startY;
 	get_start(startX, startY, q);
 
@@ -658,9 +666,9 @@ void filter_blur() {
 	int sum_red = 0 , sum_green = 0 , sum_blue = 0 , counter = 0 ;
     int start_point = 0 , end_point = 0;
 
-    cout << "Enter the ratio of the blurring" << endl;
-    cin >> end_point;
-    cin.ignore();
+    cout << "Enter the level of the blurring (1-10)" << endl;
+    const int possible[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    end_point = get_num(possible, 10);
 
     start_point = (-1 * end_point);
 

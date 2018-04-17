@@ -24,3 +24,19 @@
 	<cmath>
 	"bmplib.h"
 
+1524003938 source:d:\programming\github\programming-i\assignment 4\src\bmplib.cpp
+	<stdio.h>
+	<iostream>
+	<cstdlib>
+	"bmplib.h"
+	<unistd.h>
+
+1524003938 d:\programming\github\programming-i\assignment 4\include\bmplib.h
+
+1524005503 source:d:\programming\github\programming-i\assignment 4\main.cpp
+	<iostream>
+	<fstream>
+	<cstring>
+	<cmath>
+	"bmplib.h"
+
